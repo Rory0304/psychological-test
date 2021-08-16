@@ -2,6 +2,8 @@ import useInputs from "./hooks/useInput";
 import { useHistory  } from "react-router-dom";
 import { StartButton } from "./common/Button";
 
+import "./MainPage.css";
+
 function MainPage() {
 
     let history = useHistory();
@@ -19,23 +21,23 @@ function MainPage() {
     }
 
     return (
-        <main>
-            <h1>직업 가치관 검사</h1>
-            <form onSubmit={onSubmit}>
-                <label id="username">이름</label>
-                <input type="text" aria-label="usernmae" aria-required="true" required value={username} name="username" onChange={onChange}/><br/>
-                <label id="gender">성별</label>
-                <p>
-                    남자
-                    <input aria-label="gender" type="radio" value="male" name="gender" onChange={onChange} required />
-                </p>
-                <p>
-                    여자
-                    <input aria-label="gender" type="radio" value="female" name="gender" onChange={onChange} />
-                </p>
-                <StartButton type="submit" status={username && gender ? true : false}>검사시작</StartButton>
-            </form>
-        </main>
+            <main>
+                <h1>직업 가치관 검사</h1>
+                <form className="user-form" onSubmit={onSubmit}>
+                    <label id="username">이름</label><br/>
+                    <input type="text" aria-label="usernmae" aria-required="true" required value={username} name="username" onChange={onChange}/><br/>
+                    <label id="gender">성별</label>
+                    <p>
+                        남자
+                        <input aria-label="gender" type="radio" value="male" name="gender" onChange={onChange} required />
+                    </p>
+                    <p>
+                        여자
+                        <input aria-label="gender" type="radio" value="female" name="gender" onChange={onChange} />
+                    </p>
+                    <StartButton type="submit" status={username && gender ? true : false}>검사시작</StartButton>
+                    </form>
+            </main>
     )
     
 }

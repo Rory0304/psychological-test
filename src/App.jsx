@@ -1,10 +1,19 @@
 import Route from "./Routes";
+import styled from 'styled-components'
+
 
 function App() {
+
+  const MainWrapper = styled.div`
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  `
   return (
-    <div className="main-wrapper">
+    <MainWrapper>
       <Route></Route>
-    </div>
+    </MainWrapper>
   );
 }
 
