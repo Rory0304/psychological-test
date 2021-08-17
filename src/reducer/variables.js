@@ -1,0 +1,1 @@
+export const INPUT_USERINFO = "INPUT_USERINFO";
