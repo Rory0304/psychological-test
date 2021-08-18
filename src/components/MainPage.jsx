@@ -1,22 +1,42 @@
 import useInputs from "./hooks/useInput";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { INPUT_USERINFO, RESET_STATE } from "../reducer/variables";
+import { useHistory } from "react-router-dom";
 import { StartButton } from "./common/Button";
 
 import "./MainPage.css";
+import { useEffect } from "react";
 
 function MainPage() {
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const [{ username, gender }, onChange] = useInputs({
         username: "",
         gender: ""
     });
 
+    useEffect(() => {
+        dispatch({ type: RESET_STATE });
+    }, []);
+
+    const handleSubmit = e => {
+        e.preventDefault();
+        if (username && gender) {
+            dispatch({
+                type: INPUT_USERINFO,
+                payload: { gender, username }
+            });
+            history.push("/examine-example");
+        } else {
+            alert("정보를 모두 입력하세요!");
+        }
+    };
+
     return (
         <main>
             <h1>직업 가치관 검사</h1>
-            <form className="user-form">
+            <form className="user-form" onSubmit={handleSubmit}>
                 <label>
                     이름
                     <input
@@ -54,21 +74,9 @@ function MainPage() {
                         />
                     </p>
                 </label>
-                <Link to="/examine-example">
-                    <StartButton
-                        type="submit"
-                        disabled={username && gender ? false : true}
-                        status={username && gender ? true : false}
-                        onClick={() =>
-                            dispatch({
-                                type: "INPUT_USERINFO",
-                                payload: { gender, username }
-                            })
-                        }
-                    >
-                        검사시작
-                    </StartButton>
-                </Link>
+                <StartButton status={username && gender ? true : false}>
+                    검사시작
+                </StartButton>
             </form>
         </main>
     );
