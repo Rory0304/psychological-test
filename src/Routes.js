@@ -1,7 +1,8 @@
 import React from "react";
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import MainPage from "./components/MainPage";
 import ExamineExample from "./components/examine/ExamineExample";
+import ExaminePaper from "./components/examine/ExaminePaper";
 
 export default function Routes(params) {
     return (
@@ -10,12 +11,15 @@ export default function Routes(params) {
                 <Switch>
                     <Route exact path="/">
                         <MainPage />
-                </Route>
+                    </Route>
                     <Route exact path="/examine-example">
-                        <ExamineExample/>
+                        <ExamineExample />
+                    </Route>
+                    <Route exact path="/examine">
+                        <ExaminePaper />
                     </Route>
                 </Switch>
             </>
         </BrowserRouter>
-    )
+    );
 }
