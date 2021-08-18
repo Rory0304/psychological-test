@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import useInputs from "../hooks/useInput";
 import { StartButton } from "../common/Button";
 import { ProgressBar } from "react-bootstrap";
@@ -58,12 +59,14 @@ function ExamineExample() {
                                 onChange={onChange}
                             />
                         </label>
-                        <StartButton
-                            type="submit"
-                            status={example ? true : false}
-                        >
-                            검사 시작
-                        </StartButton>
+                        <Link to="/examine">
+                            <StartButton
+                                type="submit"
+                                status={example ? true : false}
+                            >
+                                검사 시작
+                            </StartButton>
+                        </Link>
                     </form>
                 </div>
             </article>
