@@ -8,10 +8,14 @@ import { LoadingPage } from "../common/LoadingPage";
 
 const QuestionArea = React.memo(function QuestionArea({ question, checked }) {
     //01번, 02번이 질문 사항이고, 나머지(03 ~ 10)는 질문 용어에 대한 설명임.
-    const answers_num = ["01", "02"];
+    const answersNum = ["01", "02"];
     const qitemNo = question.qitemNo;
     const dispatch = useDispatch();
-    // const pre_answers = useSelector(state => state.pre_answers);
+    const preAnswers = useSelector(state => state.pre_answers);
+
+    //이전 설문으로 돌아갈 경우, 이전의 기록을 불러와야 함.
+    const defaultAnswer = preAnswers.filter(pa => pa.qitemNo === qitemNo);
+    const defaultChecked = defaultAnswer[0] ? defaultAnswer[0].answer : false;
 
     return (
         <div>
@@ -19,7 +23,7 @@ const QuestionArea = React.memo(function QuestionArea({ question, checked }) {
                 <span>{`Q${qitemNo}. `}</span>
                 {question.question}
             </p>
-            {answers_num.map(
+            {answersNum.map(
                 an =>
                     question[`answer${an}`] && (
                         <label key={`${qitemNo}${an}`}>
@@ -28,6 +32,10 @@ const QuestionArea = React.memo(function QuestionArea({ question, checked }) {
                                 type="radio"
                                 id={`${qitemNo}${an}`}
                                 name={qitemNo}
+                                checked={
+                                    question[`answerScore${an}`] ===
+                                    defaultChecked
+                                }
                                 value={question[`answerScore${an}`]}
                                 required
                                 onChange={e =>
