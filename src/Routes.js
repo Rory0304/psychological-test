@@ -1,10 +1,13 @@
 import React from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import MainPage from "./components/MainPage";
 import ExamineExample from "./components/examine/ExamineExample";
 import ExaminePaper from "./components/examine/ExaminePaper";
 
 export default function Routes(params) {
+    const { name, gender } = useSelector(state => state.answer_sheet);
+
     return (
         <BrowserRouter>
             <>
@@ -13,10 +16,18 @@ export default function Routes(params) {
                         <MainPage />
                     </Route>
                     <Route exact path="/examine-example">
-                        <ExamineExample />
+                        {name && gender ? (
+                            <ExamineExample />
+                        ) : (
+                            <Redirect to="/" />
+                        )}
                     </Route>
                     <Route exact path="/examine">
-                        <ExaminePaper />
+                        {name && gender ? (
+                            <ExaminePaper />
+                        ) : (
+                            <Redirect to="/" />
+                        )}
                     </Route>
                 </Switch>
             </>
