@@ -59,7 +59,12 @@ function MainPage() {
                         type="submit"
                         disabled={username && gender ? false : true}
                         status={username && gender ? true : false}
-                        onClick={() => dispatch({ type: "INPUT_USERINFO" })}
+                        onClick={() =>
+                            dispatch({
+                                type: "INPUT_USERINFO",
+                                payload: { gender, username }
+                            })
+                        }
                     >
                         검사시작
                     </StartButton>
