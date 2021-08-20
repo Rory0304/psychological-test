@@ -1,32 +1,29 @@
-import useInputs from "./hooks/useInput";
-import { useDispatch } from "react-redux";
-import { INPUT_USERINFO, RESET_STATE } from "../reducer/variables";
 import { useHistory } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+
+import { resetState, inputUserInfo } from "../reducers/reducer";
+import useInputs from "./hooks/useInput";
 import { StartButton } from "./common/Button";
 
 import "./MainPage.css";
-import { useEffect } from "react";
 
 function MainPage() {
-    const dispatch = useDispatch();
     const history = useHistory();
-
+    const dispatch = useDispatch();
     const [{ username, gender }, onChange] = useInputs({
         username: "",
         gender: ""
     });
 
     useEffect(() => {
-        dispatch({ type: RESET_STATE });
+        dispatch(resetState());
     }, []);
 
     const handleSubmit = e => {
         e.preventDefault();
         if (username && gender) {
-            dispatch({
-                type: INPUT_USERINFO,
-                payload: { gender, username }
-            });
+            dispatch(inputUserInfo({ gender, username }));
             history.push("/examine-example");
         } else {
             alert("정보를 모두 입력하세요!");
@@ -74,9 +71,7 @@ function MainPage() {
                         />
                     </p>
                 </label>
-                <StartButton status={username && gender ? true : false}>
-                    검사시작
-                </StartButton>
+                <StartButton status={username && gender ? true : false}>검사시작</StartButton>
             </form>
         </main>
     );

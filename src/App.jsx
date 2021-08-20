@@ -1,12 +1,14 @@
-import { createStore } from "redux";
 import { Provider } from "react-redux";
-import { reducer } from "./reducer/reducer";
+import { configureStore } from "@reduxjs/toolkit";
 import Route from "./Routes";
 import styled from "styled-components";
 
-const store = createStore(reducer);
+import questionDataSlice from "./reducers/reducer";
 
-store.subscribe(() => console.log(store.getState()));
+const store = configureStore({
+    reducer: questionDataSlice
+});
+
 function App() {
     const MainWrapper = styled.div`
         height: 100vh;
