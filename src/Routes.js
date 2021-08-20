@@ -16,18 +16,10 @@ export default function Routes(params) {
                         <MainPage />
                     </Route>
                     <Route exact path="/examine-example">
-                        {name && gender ? (
-                            <ExamineExample />
-                        ) : (
-                            <Redirect to="/" />
-                        )}
+                        {name && gender ? <ExamineExample /> : <Redirect to="/" />}
                     </Route>
                     <Route exact path="/examine">
-                        {name && gender ? (
-                            <ExaminePaper />
-                        ) : (
-                            <Redirect to="/" />
-                        )}
+                        {name && gender ? <ExaminePaper /> : <Redirect to="/" />}
                     </Route>
                 </Switch>
             </>

@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import useInputs from "../hooks/useInput";
 import { StartButton } from "../common/Button";
 import { ProgressBar } from "react-bootstrap";
-import { useEffect } from "react";
 
 import "./ExamineExample.css";
 
@@ -16,11 +15,6 @@ function ExamineExample() {
     useEffect(() => {
         example === "" ? setNow(0) : setNow(100);
     }, [example]);
-    // const onSubmit = e => {
-    //     e.preventDefault();
-    //     setNow(100);
-    //     console.log(example);
-    // };
 
     return (
         <div className="examine-wrapper">
