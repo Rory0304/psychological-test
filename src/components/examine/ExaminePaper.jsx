@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector, connect } from "react-redux";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
-import { inputAnswer, fetchQuestionData } from "../../reducers/reducer";
-import { PrevButton, NextButton } from "../common/Button";
+import { inputAnswer, fetchQuestionData } from "../../reducers/qaReducer";
+import { PrevButton, NextButton, SubmitButton } from "../common/Button";
 import { LoadingPage } from "../common/LoadingPage";
 
 const QuestionArea = React.memo(function QuestionArea({ question, checked }) {
@@ -17,7 +18,7 @@ const QuestionArea = React.memo(function QuestionArea({ question, checked }) {
     }));
 
     const dispatch = useDispatch();
-    const preAnswers = useSelector(state => state.pre_answers);
+    const preAnswers = useSelector(state => state.qaData.pre_answers);
 
     //이전 설문으로 돌아갈 경우, 이전의 기록을 불러와야 함.
     const defaultAnswer = preAnswers.filter(pa => pa.qitemNo === qitemNo);
@@ -50,7 +51,7 @@ const QuestionArea = React.memo(function QuestionArea({ question, checked }) {
 function ExaminePaper({ title }) {
     const dispatch = useDispatch();
     const loading = useSelector(state => state.loading);
-    const questionData = useSelector(state => state.question_data);
+    const questionData = useSelector(state => state.qaData.question_data);
     const limit = 5;
     const [offset, setOffset] = useState(0);
 
@@ -75,8 +76,12 @@ function ExaminePaper({ title }) {
                 {offset !== 0 && (
                     <PrevButton onClick={() => setOffset(offset - limit)}>이전</PrevButton>
                 )}
-                {offset !== questionData.length - (questionData.length % 5) && (
+                {offset !== questionData.length - (questionData.length % 5) ? (
                     <NextButton onClick={() => setOffset(offset + limit)}>다음</NextButton>
+                ) : (
+                    <Link to="/result-view">
+                        <SubmitButton>검사 완료</SubmitButton>
+                    </Link>
                 )}
             </article>
         </div>

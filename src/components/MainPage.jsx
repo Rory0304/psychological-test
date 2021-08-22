@@ -2,7 +2,7 @@ import { useHistory } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import { resetState, inputUserInfo } from "../reducers/reducer";
+import { resetState, inputUserInfo } from "../reducers/qaReducer";
 import useInputs from "./hooks/useInput";
 import { StartButton } from "./common/Button";
 
