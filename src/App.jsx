@@ -1,13 +1,21 @@
 import { Provider } from "react-redux";
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import Route from "./Routes";
 import styled from "styled-components";
 
-import questionDataSlice from "./reducers/reducer";
+import qaDataSlice from "./reducers/qaReducer";
+import resultDataSlice from "./reducers/resultReducer";
+
+const rootReducer = combineReducers({
+    qaData: qaDataSlice.reducer,
+    resultData: resultDataSlice.reducer
+});
 
 const store = configureStore({
-    reducer: questionDataSlice
+    reducer: rootReducer
 });
+
+store.subscribe(() => console.log(store.getState()));
 
 function App() {
     const MainWrapper = styled.div`

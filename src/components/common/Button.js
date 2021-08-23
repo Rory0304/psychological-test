@@ -17,3 +17,15 @@ export const PrevButton = styled.button`
 export const NextButton = styled.button`
     background-color: "white";
 `;
+
+export const SubmitButton = styled.button`
+    background-color: "white";
+`;
+
+export const ViewResultButton = styled.button`
+    background-color: "white";
+`;
+
+export const MoveToMainButton = styled.button`
+    background-color: "white";
+`;

@@ -5,8 +5,8 @@ const initialState = {
     loading: false,
     answer_sheet: {
         apikey: process.env.REACT_APP_API_KEY,
-        qestrnSeq: 6, //심리 검사 번호
-        trgetSe: 100209, //직업 가치관 검사 대상 번호 ([todo] 추후 유저 정보를 구분해줄 것)
+        qestrnSeq: "6", //심리 검사 번호
+        trgetSe: "100209", //직업 가치관 검사 대상 번호 ([todo] 추후 유저 정보를 구분해줄 것)
         name: "",
         gender: "",
         grade: "", //[todo] 일반 대상인데 grade 항목이 필수 조건인지 확인)
@@ -16,10 +16,10 @@ const initialState = {
     },
     question_data: [],
     pre_answers: [],
-    error: "" //작성 완료 버튼을 누른 후, answer_sheet의 answers에 string으로 변환
+    error: ""
 };
 
-/* thunk function */
+/* 질문 요청 */
 export const fetchQuestionData = createAsyncThunk("FETCH_QUESTION_DATA", async () => {
     return await axios
         .get(
@@ -30,13 +30,14 @@ export const fetchQuestionData = createAsyncThunk("FETCH_QUESTION_DATA", async (
 });
 
 /* slice */
-const questionDataSlice = createSlice({
+const qaDataSlice = createSlice({
     name: "questionData",
     initialState,
     reducers: {
         inputUserInfo(state, action) {
             state.answer_sheet.name = action.payload.username;
-            state.answer_sheet.gender = action.payload.gender === "male" ? 100323 : 100324;
+            state.answer_sheet.gender = action.payload.gender === "male" ? "100323" : "100324";
+            state.answer_sheet.startDtm = new Date().getTime();
         },
         resetState(state) {
             Object.assign(state, initialState);
@@ -63,6 +64,14 @@ const questionDataSlice = createSlice({
                     answer: action.payload.answer
                 });
             }
+        },
+        setResultAnswer(state) {
+            const answerResult = state.pre_answers
+                .map(data => {
+                    return `B${data.qitemNo}=${data.answer}`;
+                })
+                .join(" ");
+            state.answer_sheet.answers = answerResult;
         }
     },
     extraReducers: builder => {
@@ -84,6 +93,6 @@ const questionDataSlice = createSlice({
     }
 });
 
-export const { inputUserInfo, inputAnswer, resetState } = questionDataSlice.actions;
+export const { setResultAnswer, inputUserInfo, inputAnswer, resetState } = qaDataSlice.actions;
 
-export default questionDataSlice.reducer;
+export default qaDataSlice;
