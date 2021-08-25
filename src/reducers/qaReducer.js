@@ -77,11 +77,11 @@ const qaDataSlice = createSlice({
                 .join(" ");
             state.answer_sheet.answers = answerResult;
         },
-        handlePrevPageAction(state) {
+        handlePrevPage(state) {
             state.pagination_data.offset =
                 state.pagination_data.offset - state.pagination_data.limit;
         },
-        handleNextPageAction(state) {
+        handleNextPage(state) {
             state.pagination_data.offset =
                 state.pagination_data.offset + state.pagination_data.limit;
         }
@@ -110,8 +110,8 @@ export const {
     inputUserInfo,
     inputAnswer,
     resetState,
-    handlePrevPageAction,
-    handleNextPageAction
+    handlePrevPage,
+    handleNextPage
 } = qaDataSlice.actions;
 
 export default qaDataSlice;

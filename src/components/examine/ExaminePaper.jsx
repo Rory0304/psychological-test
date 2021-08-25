@@ -6,8 +6,8 @@ import { FormCheck, ProgressBar } from "react-bootstrap";
 import {
     inputAnswer,
     fetchQuestionData,
-    handleNextPageAction,
-    handlePrevPageAction
+    handleNextPage,
+    handlePrevPage
 } from "../../reducers/qaReducer";
 import { PrevButton, NextButton, NextButtonLabel, SubmitButton } from "../common/Button";
 import { LoadingPage } from "../common/LoadingPage";
@@ -73,7 +73,7 @@ function Pagination({ count, questionDataLength }) {
     return (
         <div className="pagination-wrapper">
             {offset !== 0 && (
-                <PrevButton onClick={() => dispatch(handlePrevPageAction())}>이전</PrevButton>
+                <PrevButton onClick={() => dispatch(handleNextPage())}>이전</PrevButton>
             )}
             {offset !== questionDataLength - (questionDataLength % limit) ? (
                 <div class="next-button-area">
@@ -86,7 +86,7 @@ function Pagination({ count, questionDataLength }) {
                     <NextButton
                         id="nextButton"
                         disabled={count === offset || count % 5 !== 0}
-                        onClick={() => dispatch(handleNextPageAction())}
+                        onClick={() => dispatch(handlePrevPage())}
                     >
                         다음
                     </NextButton>
@@ -135,15 +135,15 @@ function ExaminePaper() {
             </header>
             <main>
                 <div className="questionArea-wrapper">
-                    {questionData.slice(offset, offset + limit).map(question => {
-                        return (
-                            <QuestionArea
-                                question={question}
-                                key={question.qitemNo}
-                                setCount={setCount}
-                            />
-                        );
-                    })}
+                    {questionData.slice(offset, offset + limit).map(question => (
+                        
+                        <QuestionArea
+                            question={question}
+                            key={question.qitemNo}
+                            setCount={setCount}
+                        />
+                    
+                    ))}
                     <Pagination questionDataLength={questionData.length} count={count} />
                 </div>
             </main>
