@@ -1,0 +1,27 @@
+.result-wrapper h1 {
+    padding-bottom: 10px;
+    border-bottom: 1px solid black;
+    text-align: center;
+}
+
+table thead {
+    font-weight: bold;
+    text-align: center;
+}
+
+table {
+    border-collapse: collapse;
+    border: 1px solid #dee1e6;
+}
+
+table td,
+table th {
+    border: 1px solid #dee1e6;
+    padding: 8px 10px;
+}
+
+.goto-main {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+}
