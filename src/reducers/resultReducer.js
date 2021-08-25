@@ -92,16 +92,16 @@ const resultDataSlice = createSlice({
 
             state.score_data = state.score_data.sort(function (prev, next) {
                 if (parseInt(prev.score) < parseInt(next.score)) {
-                    return 1;
+                    return -1;
                 }
                 if (parseInt(prev.score) > parseInt(next.score)) {
-                    return -1;
+                    return 1;
                 }
                 return 0;
             });
 
-            state.no1 = state.score_data[0].key;
-            state.no2 = state.score_data[1].key;
+            state.no1 = state.score_data[state.score_data.length - 2].key;
+            state.no2 = state.score_data[state.score_data.length - 3].key;
 
             state.loading = false;
             state.error = "";
@@ -118,7 +118,28 @@ const resultDataSlice = createSlice({
             state.error = "";
         });
         builder.addCase(fetchJobDataByEducation.fulfilled, (state, action) => {
-            state.jobdata_edu = action.payload;
+            function groupJobsByEdu() {
+                let eduList = [
+                    { key: 1, edu: "중졸 이하" },
+                    { key: 2, edu: "고졸" },
+                    { key: 3, edu: "전문대졸" },
+                    { key: 4, edu: "대졸" },
+                    { key: 5, edu: "대학원졸" }
+                ];
+
+                const result = eduList.map(edudata => {
+                    let jobListByEdu = [];
+                    action.payload.forEach(jobdata => {
+                        if (jobdata[2] === edudata.key) {
+                            jobListByEdu.push(jobdata[1]);
+                        }
+                    });
+                    edudata["jobs"] = jobListByEdu.join(", ");
+                    return edudata;
+                });
+                return result;
+            }
+            state.jobdata_edu = groupJobsByEdu();
             state.loading = false;
             state.error = "";
         });
