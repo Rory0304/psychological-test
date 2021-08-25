@@ -16,7 +16,11 @@ const initialState = {
     },
     question_data: [],
     pre_answers: [],
-    error: ""
+    error: "",
+    pagination_data: {
+        limit: 5,
+        offset: 0
+    }
 };
 
 /* 질문 요청 */
@@ -72,6 +76,14 @@ const qaDataSlice = createSlice({
                 })
                 .join(" ");
             state.answer_sheet.answers = answerResult;
+        },
+        handlePrevPageAction(state) {
+            state.pagination_data.offset =
+                state.pagination_data.offset - state.pagination_data.limit;
+        },
+        handleNextPageAction(state) {
+            state.pagination_data.offset =
+                state.pagination_data.offset + state.pagination_data.limit;
         }
     },
     extraReducers: builder => {
@@ -93,6 +105,13 @@ const qaDataSlice = createSlice({
     }
 });
 
-export const { setResultAnswer, inputUserInfo, inputAnswer, resetState } = qaDataSlice.actions;
+export const {
+    setResultAnswer,
+    inputUserInfo,
+    inputAnswer,
+    resetState,
+    handlePrevPageAction,
+    handleNextPageAction
+} = qaDataSlice.actions;
 
 export default qaDataSlice;

@@ -3,7 +3,12 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { FormCheck, ProgressBar } from "react-bootstrap";
-import { inputAnswer, fetchQuestionData } from "../../reducers/qaReducer";
+import {
+    inputAnswer,
+    fetchQuestionData,
+    handleNextPageAction,
+    handlePrevPageAction
+} from "../../reducers/qaReducer";
 import { PrevButton, NextButton, NextButtonLabel, SubmitButton } from "../common/Button";
 import { LoadingPage } from "../common/LoadingPage";
 
@@ -48,8 +53,10 @@ const QuestionArea = React.memo(function QuestionArea({ question, setCount }) {
                         required
                         onChange={e => {
                             if (!defaultChecked) {
+                                //해당 응답에 처음으로 체크를 했기 때문에 전체 응답 수를 1로 증가
                                 setCount(currentState => currentState + 1);
                             }
+                            //이미 체크한 상태에서 체크 옵션만 바꾼 것이기 때문에 answer state만 변경
                             dispatch(inputAnswer({ qitemNo, answer: e.target.value }));
                         }}
                     />
@@ -59,10 +66,15 @@ const QuestionArea = React.memo(function QuestionArea({ question, setCount }) {
     );
 });
 
-function Pagination({ offset, count, handlePagination, questionDataLength, limit }) {
+function Pagination({ count, questionDataLength }) {
+    const dispatch = useDispatch();
+    const { offset, limit } = useSelector(state => state.qaData.pagination_data);
+
     return (
         <div className="pagination-wrapper">
-            {offset !== 0 && <PrevButton onClick={() => handlePagination("PREV")}>이전</PrevButton>}
+            {offset !== 0 && (
+                <PrevButton onClick={() => dispatch(handlePrevPageAction())}>이전</PrevButton>
+            )}
             {offset !== questionDataLength - (questionDataLength % limit) ? (
                 <div class="next-button-area">
                     <NextButtonLabel
@@ -74,7 +86,7 @@ function Pagination({ offset, count, handlePagination, questionDataLength, limit
                     <NextButton
                         id="nextButton"
                         disabled={count === offset || count % 5 !== 0}
-                        onClick={() => handlePagination("NEXT")}
+                        onClick={() => dispatch(handleNextPageAction())}
                     >
                         다음
                     </NextButton>
@@ -90,10 +102,9 @@ function Pagination({ offset, count, handlePagination, questionDataLength, limit
 
 function ExaminePaper() {
     const dispatch = useDispatch();
-    const loading = useSelector(state => state.loading);
+    const loading = useSelector(state => state.qaData.loading);
+    const { offset, limit } = useSelector(state => state.qaData.pagination_data);
     const questionData = useSelector(state => state.qaData.question_data);
-    const limit = 5;
-    const [offset, setOffset] = useState(0);
     const [progress, setProgress] = useState(0);
     const [count, setCount] = useState(0);
 
@@ -106,19 +117,6 @@ function ExaminePaper() {
             setProgress(parseInt(count * (100 / questionData.length)));
         }
     }, [count]);
-
-    const handlePagination = direction => {
-        switch (direction) {
-            case "NEXT":
-                setOffset(offset + limit);
-                break;
-            case "PREV":
-                setOffset(offset - limit);
-                break;
-            default:
-                break;
-        }
-    };
 
     if (loading && questionData.length === 0) {
         return (
@@ -146,13 +144,7 @@ function ExaminePaper() {
                             />
                         );
                     })}
-                    <Pagination
-                        offset={offset}
-                        handlePagination={handlePagination}
-                        questionDataLength={questionData.length}
-                        limit={limit}
-                        count={count}
-                    />
+                    <Pagination questionDataLength={questionData.length} count={count} />
                 </div>
             </main>
         </div>
