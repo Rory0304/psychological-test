@@ -53,5 +53,9 @@ export const ViewResultButton = styled.button`
 `;
 
 export const MoveToMainButton = styled.button`
-    background-color: "white";
+    width: 100%;
+    background-color: #fff;
+    color: #4e8fea;
+    border: 1px solid #4e8fea;
+    padding: 8px 10px;
 `;
