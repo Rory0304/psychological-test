@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 import qaDataSlice from "./reducers/qaReducer";
 import resultDataSlice from "./reducers/resultReducer";
+import "./App.css";
 
 const rootReducer = combineReducers({
     qaData: qaDataSlice.reducer,
@@ -20,9 +21,6 @@ store.subscribe(() => console.log(store.getState()));
 function App() {
     const MainWrapper = styled.div`
         height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
     `;
     return (
         <Provider store={store}>
