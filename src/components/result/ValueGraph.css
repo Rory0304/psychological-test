@@ -1,0 +1,51 @@
+.value-table-area {
+    position: relative;
+}
+
+.value-table thead {
+    position: absolute;
+    bottom: -42px;
+    width: 100%;
+}
+
+.value-table thead tr {
+    display: flex;
+    text-align: center;
+    column-gap: 19px;
+}
+
+.value-table thead th {
+    height: 50px;
+    line-height: 50px;
+    padding: 0;
+    border: 0;
+}
+
+.value-table tbody tr {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    position: absolute;
+    bottom: 0;
+    flex-direction: row;
+    align-content: center;
+    align-items: flex-end;
+    column-gap: 19px;
+}
+
+.value-table tbody tr td {
+    text-align: center;
+    z-index: 1;
+    background-color: #ffbf7c;
+}
+
+.value-table thead th,
+.value-table tbody td {
+    width: calc(100% / 7);
+}
+
+.ticks .tick {
+    height: 50px;
+    position: relative;
+    border-bottom: 1px dotted #c4c4c4;
+}

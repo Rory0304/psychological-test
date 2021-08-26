@@ -1,8 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-import { setResultAnswer } from "./qaReducer";
-
 const initialState = {
     loading: false,
     score_data: [],
@@ -10,21 +8,15 @@ const initialState = {
     jobdata_major: [],
     no1: "",
     no2: "",
+    bestTwo: ["", ""],
+    worstTwo: ["", ""],
     error: ""
 };
 
 /* 종사자 별 직업 정보를 얻기 위한 wonScore을 요청 */
-export const fetchScoreData = createAsyncThunk("FETCH_SCORE_DATA", async (args, ThunkAPI) => {
-    ThunkAPI.dispatch(setResultAnswer());
-    const { qaData } = ThunkAPI.getState();
+export const fetchScoreData = createAsyncThunk("FETCH_SCORE_DATA", async ({ answer_sheet }) => {
     const result = await axios
-        .post(
-            "https://www.career.go.kr/inspct/openapi/test/report",
-            JSON.stringify(qaData.answer_sheet),
-            {
-                headers: { "Content-Type": `application/json` }
-            }
-        )
+        .post("https://www.career.go.kr/inspct/openapi/test/report", answer_sheet)
         .then(async res => {
             const seq = res.data.RESULT.url.split("seq=")[1];
             return await axios
@@ -90,7 +82,9 @@ const resultDataSlice = createSlice({
                 state.score_data.push({ key: key, score: value, jobValue: jobValues[index] });
             });
 
-            state.score_data = state.score_data.sort(function (prev, next) {
+            const orderedScoreData = state.score_data.map(score => score);
+
+            orderedScoreData.sort(function (prev, next) {
                 if (parseInt(prev.score) < parseInt(next.score)) {
                     return -1;
                 }
@@ -100,8 +94,15 @@ const resultDataSlice = createSlice({
                 return 0;
             });
 
-            state.no1 = state.score_data[state.score_data.length - 2].key;
-            state.no2 = state.score_data[state.score_data.length - 3].key;
+            state.no1 = orderedScoreData[orderedScoreData.length - 2].key;
+            state.no2 = orderedScoreData[orderedScoreData.length - 3].key;
+
+            state.bestTwo = [
+                orderedScoreData[orderedScoreData.length - 2].jobValue,
+                orderedScoreData[orderedScoreData.length - 3].jobValue
+            ];
+
+            state.worstTwo = [orderedScoreData[0].jobValue, orderedScoreData[1].jobValue];
 
             state.loading = false;
             state.error = "";
