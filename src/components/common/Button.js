@@ -10,12 +10,38 @@ export const StartButton = styled.button`
     background-color: ${props => (props.status ? "#B2ACFA" : "#fff")};
 `;
 
+export const PaginationButton = styled.button`
+    border: none;
+    padding: 8px 15px;
+    border-radius: 11px;
+`;
+
 export const PrevButton = styled.button`
-    background-color: "white";
+    width: 47%;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 11px;
+    color: black;
+    background-color: #babcbe;
+    opacity: 38%;
+`;
+
+export const NextButtonLabel = styled.label`
+    visibility: ${props => (props.status ? "visible" : "hidden")};
 `;
 
 export const NextButton = styled.button`
-    background-color: "white";
+    width: 100%;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 11px;
+    background-color: #4e8fea;
+    color: #fff;
+    transition: background-color 0.5s ease;
+
+    &:disabled {
+        opacity: 0.25;
+    }
 `;
 
 export const SubmitButton = styled.button`
