@@ -15,7 +15,7 @@ export default function TableLayOut({ title, caption, cols, rows }) {
 }
 
 export function UserInfo() {
-    const { name, gender, startdtm } = useSelector(state => state.qaData.answer_sheet);
+    const { name, gender, startDtm } = useSelector(state => state.qaData.answer_sheet);
 
     const cols = (
         <Tr>
@@ -29,7 +29,7 @@ export function UserInfo() {
         <Tr>
             <td>{name}</td>
             <td>{gender === "100323" ? "남성" : "여성"}</td>
-            <td>{new Date(startdtm).toLocaleDateString()}</td>
+            <td>{new Date(startDtm).toLocaleDateString()}</td>
         </Tr>
     );
 
