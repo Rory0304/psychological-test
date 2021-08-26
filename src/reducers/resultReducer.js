@@ -15,7 +15,6 @@ const initialState = {
 
 /* 종사자 별 직업 정보를 얻기 위한 wonScore을 요청 */
 export const fetchScoreData = createAsyncThunk("FETCH_SCORE_DATA", async ({ answer_sheet }) => {
-    console.log(answer_sheet);
     const result = await axios
         .post("https://www.career.go.kr/inspct/openapi/test/report", answer_sheet)
         .then(async res => {
