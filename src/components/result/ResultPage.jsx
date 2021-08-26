@@ -1,14 +1,9 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-import {
-    fetchScoreData,
-    fetchJobDataByEducation,
-    fetchJobDataByMajor
-} from "../../reducers/resultReducer";
-
+import useActions from "../hooks/useActions";
 import { UserInfo, MajorTable, EduTable } from "./Table";
 import ValueGraph from "./ValueGraph";
 import { ViewResultButton, MoveToMainButton } from "../common/Button";
@@ -48,15 +43,14 @@ function ResultPreview({ setViewStatus }) {
 }
 
 function ResultPaper() {
-    const dispatch = useDispatch();
     const { loading, score_data, jobdata_edu, jobdata_major } = useSelector(
         state => state.resultData
     );
+    const { answer_sheet } = useSelector(state => state.qaData);
+    const { setResultData } = useActions();
+
     useEffect(() => {
-        dispatch(fetchScoreData()).then(() => {
-            dispatch(fetchJobDataByEducation());
-            dispatch(fetchJobDataByMajor());
-        });
+        setResultData(answer_sheet);
     }, []);
 
     if (loading && (!score_data || !jobdata_edu || !jobdata_major)) {
