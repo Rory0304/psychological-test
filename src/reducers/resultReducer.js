@@ -81,7 +81,9 @@ const resultDataSlice = createSlice({
             ];
             action.payload.forEach((data, index) => {
                 const [key, value] = data.split("=");
-                state.score_data.push({ key: key, score: value, jobValue: jobValues[index] });
+                if (key && value) {
+                    state.score_data.push({ key: key, score: value, jobValue: jobValues[index] });
+                }
             });
 
             const orderedScoreData = state.score_data.map(score => score);
@@ -96,12 +98,12 @@ const resultDataSlice = createSlice({
                 return 0;
             });
 
-            state.no1 = orderedScoreData[orderedScoreData.length - 2].key;
-            state.no2 = orderedScoreData[orderedScoreData.length - 3].key;
+            state.no1 = orderedScoreData[orderedScoreData.length - 1].key;
+            state.no2 = orderedScoreData[orderedScoreData.length - 2].key;
 
             state.bestTwo = [
-                orderedScoreData[orderedScoreData.length - 2].jobValue,
-                orderedScoreData[orderedScoreData.length - 3].jobValue
+                orderedScoreData[orderedScoreData.length - 1].jobValue,
+                orderedScoreData[orderedScoreData.length - 2].jobValue
             ];
 
             state.worstTwo = [orderedScoreData[0].jobValue, orderedScoreData[1].jobValue];
