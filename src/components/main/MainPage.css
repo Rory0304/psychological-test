@@ -1,26 +1,11 @@
 .custom-form {
     text-align: center;
+    font-size: 1.5rem;
 }
 
 .custom-form .form-label {
-    font-size: 18px;
     display: block;
     margin-bottom: 15px;
-}
-
-.custom-form .form-control {
-    width: 25%;
-    margin: 0 auto;
-}
-
-.custom-form .form-group > .form-check {
-    display: inline-block;
-    margin-right: 15px;
-}
-
-.custom-form .form-check-label {
-    vertical-align: middle;
-    font-size: 18px;
 }
 
 .custom-form .form-check-label:hover {

@@ -52,36 +52,40 @@ function MainPage() {
                     <Form className="custom-form" onSubmit={handleSubmit}>
                         <Form.Group className="mb-4">
                             <Form.Label>이름</Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="이름을 작성하세요"
-                                required
-                                value={username}
-                                name="username"
-                                onChange={onChange}
-                            />
+                            <InputTextDiv>
+                                <Form.Control
+                                    type="text"
+                                    placeholder="이름을 작성하세요"
+                                    required
+                                    value={username}
+                                    name="username"
+                                    onChange={onChange}
+                                />
+                            </InputTextDiv>
                         </Form.Group>
                         <Form.Group className="mb-4">
                             <Form.Label>성별</Form.Label>
-                            <Form.Check
-                                type="radio"
-                                name="gender"
-                                value="male"
-                                label="남자"
-                                aria-label="남자"
-                                id="male"
-                                required
-                                onChange={onChange}
-                            />
-                            <Form.Check
-                                type="radio"
-                                name="gender"
-                                value="female"
-                                label="여자"
-                                aria-label="여자"
-                                id="female"
-                                onChange={onChange}
-                            />
+                            <InputRadioDiv>
+                                <Form.Check
+                                    type="radio"
+                                    name="gender"
+                                    value="male"
+                                    label="남자"
+                                    aria-label="남자"
+                                    id="male"
+                                    required
+                                    onChange={onChange}
+                                />
+                                <Form.Check
+                                    type="radio"
+                                    name="gender"
+                                    value="female"
+                                    label="여자"
+                                    aria-label="여자"
+                                    id="female"
+                                    onChange={onChange}
+                                />
+                            </InputRadioDiv>
                         </Form.Group>
                         <StartButton status={username && gender ? true : false}>
                             검사시작
@@ -97,4 +101,20 @@ const FormWrapper = styled.div`
     background-color: ${Colors.mainGray};
     padding: 25px;
 `;
+
+const InputTextDiv = styled.div`
+    max-width: 300px;
+    margin: 0 auto;
+
+    @media screen and (max-width: 320px) {
+        width: calc(100% - 20px);
+    }
+`;
+
+const InputRadioDiv = styled.div`
+    display: flex;
+    justify-content: center;
+    gap: 10%;
+`;
+
 export default MainPage;
