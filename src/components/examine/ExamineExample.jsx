@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
+import { FontSize } from "../common/StyledConstants";
+
 import useInputs from "../hooks/useInput";
 import { NextButton, NextButtonLabel } from "../common/Button";
 import { ProgressBar } from "react-bootstrap";
@@ -47,21 +50,20 @@ function ExamineExample() {
                     <ProgressBar now={progress} visuallyhidden={true} />
                 </header>
                 <main>
-                    <div>
+                    <ExamineManual>
                         <p>
                             직업과 관련된 두 개의 가치 중에서 자기에게 더 중요한 가치에 표시하세요.
                             <br /> 가치의 뜻을 잘 모르겠다면 문항 아래에 있는 가치의 설명을
                             확인해보세요.
                         </p>
-                    </div>
+                    </ExamineManual>
                     <QuestionListLayout
+                        isExample={true}
                         qitemNo={qitemNo}
                         question={question}
                         answerOptions={answerOptions}
-                        defaultChecked={false}
                         onChange={onChange}
                     />
-
                     <>
                         <NextButtonLabel htmlFor="nextButton" status={progress !== 100}>
                             모든 문항에 응답해야 합니다.
@@ -84,4 +86,12 @@ function ExamineExample() {
     );
 }
 
+const ExamineManual = styled.div`
+    margin: 35px 0;
+    font-size: ${FontSize.middle2};
+
+    & > p {
+        line-height: 24px;
+    }
+`;
 export default ExamineExample;
