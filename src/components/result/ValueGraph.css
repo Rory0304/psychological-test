@@ -2,6 +2,11 @@
     position: relative;
 }
 
+.value-table-area p {
+    font-size: 1.2rem;
+    line-height: 28px;
+}
+
 .value-table thead {
     position: absolute;
     bottom: -42px;
@@ -16,9 +21,13 @@
 
 .value-table thead th {
     height: 50px;
-    line-height: 50px;
     padding: 0;
     border: 0;
+    line-height: 50px;
+    white-space: nowrap;
+    word-break: break-all;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .value-table tbody tr {

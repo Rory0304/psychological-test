@@ -1,9 +1,3 @@
-.main-wrapper header span {
-    position: absolute;
-    right: 0;
-    top: 0;
-}
-
 .pagination-wrapper {
     text-align: center;
 }
@@ -24,10 +18,11 @@
 
 .progress {
     background-color: gray;
+    height: 25px;
 }
 
 .progress-bar {
-    background-color: var(--yellow) !important;
+    background-color: #ffbf7c;
 }
 
 .question-list {

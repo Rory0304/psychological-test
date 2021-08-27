@@ -4,41 +4,48 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import useActions from "../hooks/useActions";
+import { FontSize, Colors } from "../common/StyledConstants";
 import { UserInfo, MajorTable, EduTable } from "./Table";
 import ValueGraph from "./ValueGraph";
 import { ViewResultButton, MoveToMainButton } from "../common/Button";
+import { MainWrapper, IntroWrapper } from "../common/Wrapper";
 
 function ResultPage() {
     const [viewStatus, setViewStatus] = useState(false);
 
     return (
-        <ResultWrapper>
+        <>
             {viewStatus ? (
-                <>
+                <ResultWrapper>
                     <ResultPaper />
                     <Link to="/" className="goto-main">
                         <MoveToMainButton>다시 검사하기</MoveToMainButton>
                     </Link>
-                </>
+                </ResultWrapper>
             ) : (
                 <ResultPreview setViewStatus={setViewStatus} />
             )}
-        </ResultWrapper>
+        </>
     );
 }
 
 function ResultPreview({ setViewStatus }) {
     return (
-        <>
-            <h1>검사가 완료되었습니다.</h1>
-            <p>
-                검사 결과는 여러분이 직업을 선택할 때 상대적으로 어떠한 가치를 중요하게 생각하는지를
-                알려주고, 중요 가치를 충족시켜줄 수 있는 직업에 대해 생각해 볼 기회를 제공합니다.
-            </p>
-            <ViewResultButton type="button" onClick={() => setViewStatus(true)}>
-                결과 확인하기
-            </ViewResultButton>
-        </>
+        <MainWrapper>
+            <main>
+                <IntroWrapper>
+                    <h1>검사가 완료되었습니다.</h1>
+                    <p>
+                        검사 결과는 여러분이 직업을 선택할 때 상대적으로 어떠한 가치를 중요하게
+                        생각하는지를 알려주고, 중요 가치를 충족시켜줄 수 있는 직업에 대해 생각해 볼
+                        기회를 제공합니다.
+                    </p>
+                    <ViewResultButton type="button" onClick={() => setViewStatus(true)}>
+                        결과 확인하기
+                    </ViewResultButton>
+                </IntroWrapper>
+            </main>
+        </MainWrapper>
     );
 }
 
@@ -46,11 +53,10 @@ function ResultPaper() {
     const { loading, score_data, jobdata_edu, jobdata_major } = useSelector(
         state => state.resultData
     );
-    const { answer_sheet } = useSelector(state => state.qaData);
     const { setResultData } = useActions();
 
     useEffect(() => {
-        setResultData(answer_sheet);
+        setResultData();
     }, []);
 
     if (loading && (!score_data || !jobdata_edu || !jobdata_major)) {
@@ -86,14 +92,27 @@ function ResultPaper() {
 }
 
 const ResultWrapper = styled.div`
-    width: calc(100% - 30px * 2);
-    padding: 40px;
+    width: 75%;
+    padding: 60px 0;
     margin: 0 auto;
 
-    & > header > h1 {
-        padding-bottom: 10px;
-        border-bottom: 1px solid black;
-        text-align: center;
+    & > header {
+        & > h1 {
+            width: fit-content;
+            margin: 0 auto;
+            padding-bottom: 13px;
+            border-bottom: 2px solid black;
+            font-size: ${FontSize.big};
+            font-weight: bold;
+            text-align: center;
+        }
+
+        & > p {
+            padding: 15px 5px;
+            font-size: ${FontSize.middle2};
+            line-height: 20px;
+            word-break: break-all;
+        }
     }
 `;
 
@@ -101,13 +120,16 @@ const Section = styled.section`
     margin: 40px 0 65px 0;
 
     & > h2 {
-        border-left: 12px solid#4F718F;
+        border-left: 12px solid ${Colors.mainBlue};
         padding: 12px;
         margin: 20px 0;
+        font-size: ${FontSize.middle1};
+        font-weight: bold;
     }
 
     & > h3 {
         margin: 20px 0;
+        font-size: ${FontSize.middle2};
     }
 `;
 
