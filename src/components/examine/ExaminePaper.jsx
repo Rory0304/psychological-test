@@ -36,7 +36,7 @@ function ExaminePaper() {
         );
     }
     return (
-        <MainWrapper>
+        <MainWrapper center={false}>
             <ExamineWrapper>
                 <header>
                     <h2>

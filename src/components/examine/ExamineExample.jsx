@@ -41,7 +41,7 @@ function ExamineExample() {
     }, [q0]);
 
     return (
-        <MainWrapper>
+        <MainWrapper center={true}>
             <ExamineWrapper>
                 <header>
                     <h2>

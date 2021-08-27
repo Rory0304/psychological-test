@@ -31,7 +31,7 @@ function ResultPage() {
 
 function ResultPreview({ setViewStatus }) {
     return (
-        <MainWrapper>
+        <MainWrapper center={true}>
             <main>
                 <IntroWrapper>
                     <h1>검사가 완료되었습니다.</h1>
