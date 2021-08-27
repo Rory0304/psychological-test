@@ -1,13 +1,21 @@
 import styled from "styled-components";
+import { Colors, FontSize } from "./StyledConstants";
 
 export const StartButton = styled.button`
-    display: block;
-    margin: 0 auto;
+    width: 25%;
+    margin-top: 1rem;
     font-size: 15px;
-    width: 80%;
-    border: 1px solid #6558f5;
-    color: ${props => (props.status ? "#fff" : "#6558f5")};
-    background-color: ${props => (props.status ? "#B2ACFA" : "#fff")};
+    font-weight: bold;
+    margin: 0 auto;
+    padding: 10px 8px;
+    border: 2px solid ${Colors.mainBlue};
+    border-radius: 8px;
+    background-color: ${props => (props.status ? Colors.mainBlue : Colors.mainWhite)};
+    color: ${props => (props.status ? Colors.mainWhite : Colors.mainBlue)};
+    font-size: ${FontSize.middle2};
+    &:hover {
+        box-shadow: 1px 1px 5px 1px ${Colors.shadowGray};
+    }
 `;
 
 export const PaginationButton = styled.button`
@@ -18,44 +26,63 @@ export const PaginationButton = styled.button`
 
 export const PrevButton = styled.button`
     width: 47%;
+    height: 50px;
     border: none;
     padding: 8px 15px;
     border-radius: 11px;
-    color: black;
-    background-color: #babcbe;
-    opacity: 38%;
+    color: #000;
+    background-color: ${Colors.mainGrayDarker};
+    opacity: 56%;
+    font-size: ${FontSize.middle2};
+    visibility: ${props => (props.status ? "hidden" : "visible")};
+    &:hover {
+        box-shadow: 1px 1px 5px 1px ${Colors.shadowGray};
+    }
 `;
 
 export const NextButtonLabel = styled.label`
+    width: 100%;
+    font-size: ${FontSize.small};
     visibility: ${props => (props.status ? "visible" : "hidden")};
+    margin-bottom: 10px;
+    text-align: center;
 `;
 
 export const NextButton = styled.button`
     width: 100%;
+    height: 50px;
     border: none;
     padding: 8px 15px;
     border-radius: 11px;
-    background-color: #4e8fea;
+    background-color: ${Colors.mainBlue};
     color: #fff;
     transition: background-color 0.5s ease;
+    font-size: ${FontSize.middle2};
 
     &:disabled {
-        opacity: 0.25;
+        opacity: 56%;
+    }
+
+    &:hover {
+        box-shadow: 1px 1px 5px 1px ${Colors.shadowGray};
     }
 `;
-
-export const SubmitButton = styled.button`
-    background-color: "white";
-`;
-
 export const ViewResultButton = styled.button`
+    display: block;
     background-color: "white";
+    width: 50%;
+    background-color: ${Colors.mainBlue};
+    color: ${Colors.mainWhite};
+    border: 0;
+    padding: 15px 10px;
+    margin: 0 auto;
 `;
 
 export const MoveToMainButton = styled.button`
-    width: 100%;
-    background-color: #fff;
-    color: #4e8fea;
-    border: 1px solid #4e8fea;
-    padding: 8px 10px;
+    width: 50%;
+    background-color: ${Colors.mainBlue};
+    color: ${Colors.mainWhite};
+    border: 0;
+    padding: 15px 10px;
+    margin: 0 auto;
 `;
