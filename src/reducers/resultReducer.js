@@ -14,9 +14,11 @@ const initialState = {
 };
 
 /* 종사자 별 직업 정보를 얻기 위한 wonScore을 요청 */
-export const fetchScoreData = createAsyncThunk("FETCH_SCORE_DATA", async ({ answer_sheet }) => {
+export const fetchScoreData = createAsyncThunk("FETCH_SCORE_DATA", async (args, ThunkAPI) => {
+    const { qaData } = ThunkAPI.getState();
+
     const result = await axios
-        .post("https://www.career.go.kr/inspct/openapi/test/report", answer_sheet)
+        .post("https://www.career.go.kr/inspct/openapi/test/report", qaData.answer_sheet)
         .then(async res => {
             const seq = res.data.RESULT.url.split("seq=")[1];
             return await axios
