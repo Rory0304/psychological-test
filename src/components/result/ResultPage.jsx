@@ -59,13 +59,15 @@ function ResultPaper() {
         setResultData();
     }, []);
 
-    if (loading && (!score_data || !jobdata_edu || !jobdata_major)) {
+    if (
+        loading &&
+        (score_data.length === 0 || jobdata_edu.length === 0 || jobdata_major.length === 0)
+    ) {
         <div>loading...</div>;
     }
-
     return (
         <>
-            <header>
+            <ResultHeader>
                 <h1>직업 가치관 검사 결과표</h1>
                 <p>
                     직업가치관이란 직업을 선택할 때 영향을 끼치는 자신만의 믿음과 신념입니다. 따라서
@@ -75,7 +77,7 @@ function ResultPaper() {
                     충족시켜줄 수 있는 직업에 대해 생각해 볼 기회를 제공합니다.
                 </p>
                 <UserInfo />
-            </header>
+            </ResultHeader>
             <main>
                 <Section>
                     <h2>1. 직업 가치관 결과</h2>
@@ -95,24 +97,24 @@ const ResultWrapper = styled.div`
     width: 75%;
     padding: 60px 0;
     margin: 0 auto;
+`;
 
-    & > header {
-        & > h1 {
-            width: fit-content;
-            margin: 0 auto;
-            padding-bottom: 13px;
-            border-bottom: 2px solid black;
-            font-size: ${FontSize.big};
-            font-weight: bold;
-            text-align: center;
-        }
+const ResultHeader = styled.header`
+    & > h1 {
+        width: fit-content;
+        margin: 0 auto;
+        padding-bottom: 13px;
+        border-bottom: 2px solid black;
+        font-size: ${FontSize.big};
+        font-weight: bold;
+        text-align: center;
+    }
 
-        & > p {
-            padding: 15px 5px;
-            font-size: ${FontSize.middle2};
-            line-height: 20px;
-            word-break: break-all;
-        }
+    & > p {
+        padding: 15px 5px;
+        font-size: ${FontSize.middle2};
+        line-height: 32px;
+        word-break: break-all;
     }
 `;
 
@@ -129,7 +131,7 @@ const Section = styled.section`
 
     & > h3 {
         margin: 20px 0;
-        font-size: ${FontSize.middle2};
+        font-size: ${FontSize.middle1};
     }
 `;
 
