@@ -1,12 +1,14 @@
 import styled from "styled-components";
+import { FontSize } from "../common/StyledConstants";
 import { useSelector } from "react-redux";
 
-export default function TableLayOut({ title, caption, cols, rows }) {
+export default function TableLayOut({ title, caption, cols, rows, colgroup }) {
     return (
         <>
             {(title === "학력별" || title === "전공별") && <h3>종사자 평균 {title}</h3>}
             <Table>
                 <caption className="visually-hidden">{caption}</caption>
+                {colgroup}
                 <thead>{cols}</thead>
                 <tbody>{rows}</tbody>
             </Table>
@@ -38,6 +40,14 @@ export function UserInfo() {
 
 export function MajorTable() {
     const { jobdata_major } = useSelector(state => state.resultData);
+
+    const colgroup = (
+        <colgroup>
+            <col width="15%" />
+            <col />
+        </colgroup>
+    );
+
     const cols = (
         <Tr>
             <th scope="col">분야</th>
@@ -59,6 +69,7 @@ export function MajorTable() {
         <TableLayOut
             title="전공별"
             caption="종사자 평균 전공별 직업군 표"
+            colgroup={colgroup}
             cols={cols}
             rows={rows}
         />
@@ -67,6 +78,13 @@ export function MajorTable() {
 
 export function EduTable() {
     const { jobdata_edu } = useSelector(state => state.resultData);
+
+    const colgroup = (
+        <colgroup>
+            <col width="15%" />
+            <col />
+        </colgroup>
+    );
 
     const cols = (
         <Tr>
@@ -89,6 +107,7 @@ export function EduTable() {
         <TableLayOut
             title={"학력별"}
             caption={"종사자 평균 학력별 직업군표"}
+            colgroup={colgroup}
             cols={cols}
             rows={rows}
         />
@@ -97,6 +116,7 @@ export function EduTable() {
 
 const Table = styled.table`
     width: 100%;
+    font-size: ${FontSize.middle2};
     & > thead {
         font-weight: bold;
         text-align: center;
@@ -107,17 +127,19 @@ const Table = styled.table`
 const Tr = styled.tr`
     & > td {
         border: 1px solid #a2a2a2;
-        padding: 8px 10px;
+        padding: 15px;
+        line-height: 25px;
     }
 
     & > th {
-        padding: 8px 10px;
+        padding: 15px;
     }
 
     & > th[scope="row"] {
         border: 1px solid #a2a2a2;
         padding: 8px 10px;
         text-align: center;
+        vertical-align: middle;
     }
 
     & > th[scope="col"] {
