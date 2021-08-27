@@ -1,70 +1,86 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import useInputs from "../hooks/useInput";
-import { StartButton } from "../common/Button";
+import { NextButton, NextButtonLabel } from "../common/Button";
 import { ProgressBar } from "react-bootstrap";
-
-import "./ExamineExample.css";
+import { ExamineWrapper, MainWrapper } from "../common/Wrapper";
+import { QuestionListLayout } from "./QuestionList";
 
 function ExamineExample() {
-    const [now, setNow] = useState(0);
-    const [{ example }, onChange] = useInputs({
-        example: ""
+    const question = {
+        question: "두 가치 중에 자기에게 더 중요한 가치를 선택하세요.",
+        answer01: "능력 발휘",
+        answer02: "자율성",
+        answerScore01: 1,
+        answerScore02: 2
+    };
+    const qitemNo = 0;
+    const answerOptions = ["01", "02"].map(num => ({
+        key: qitemNo + num,
+        qitemNo: "q" + qitemNo,
+        answer: question[`answer${num}`],
+        answerScore: question[`answerScore${num}`],
+        id: qitemNo + num
+    }));
+
+    const [progress, setProgress] = useState(0);
+
+    const [{ q0 }, onChange] = useInputs({
+        q0: 0
     });
 
     useEffect(() => {
-        example === "" ? setNow(0) : setNow(100);
-    }, [example]);
+        if (q0 === 0) {
+            setProgress(0);
+        } else {
+            setProgress(100);
+        }
+    }, [q0]);
 
     return (
-        <div className="examine-wrapper">
-            <h1>검사 예시</h1>
-            <>
-                <ProgressBar now={now} label={`${now}%`} />
-            </>
-            <article>
-                <h2>
-                    직업과 관련된 두 개의 가치 중에서 자기에게 더 중요한 가치에
-                    표시하세요.
-                    <br /> 가치의 뜻을 잘 모르겠다면 문항 아래에 있는 가치의
-                    설명을 확인해보세요.
-                </h2>
-                <div>
-                    <p>두 가치 중에 자기에게 더 중요한 가치를 선택하세요.</p>
-                    <form>
-                        <label>
-                            능력 발휘
-                            <input
-                                type="radio"
-                                id="answer01"
-                                name="example"
-                                value="answer01"
-                                onChange={onChange}
-                                required
-                            />
-                        </label>
-                        <label>
-                            자율성
-                            <input
-                                type="radio"
-                                id="answer02"
-                                name="example"
-                                value="answer02"
-                                onChange={onChange}
-                            />
-                        </label>
-                        <Link to="/examine">
-                            <StartButton
-                                type="submit"
-                                status={example ? true : false}
-                            >
+        <MainWrapper>
+            <ExamineWrapper>
+                <header>
+                    <h2>
+                        검사 예시 <span>{progress}%</span>
+                    </h2>
+                    <ProgressBar now={progress} visuallyhidden={true} />
+                </header>
+                <main>
+                    <div>
+                        <p>
+                            직업과 관련된 두 개의 가치 중에서 자기에게 더 중요한 가치에 표시하세요.
+                            <br /> 가치의 뜻을 잘 모르겠다면 문항 아래에 있는 가치의 설명을
+                            확인해보세요.
+                        </p>
+                    </div>
+                    <QuestionListLayout
+                        qitemNo={qitemNo}
+                        question={question}
+                        answerOptions={answerOptions}
+                        defaultChecked={false}
+                        onChange={onChange}
+                    />
+
+                    <>
+                        <NextButtonLabel htmlFor="nextButton" status={progress !== 100}>
+                            모든 문항에 응답해야 합니다.
+                        </NextButtonLabel>
+                        {progress === 100 ? (
+                            <Link to="/examine">
+                                <NextButton id="nextButton" disabled={false}>
+                                    검사 시작
+                                </NextButton>
+                            </Link>
+                        ) : (
+                            <NextButton id="nextButton" disabled={true}>
                                 검사 시작
-                            </StartButton>
-                        </Link>
-                    </form>
-                </div>
-            </article>
-        </div>
+                            </NextButton>
+                        )}
+                    </>
+                </main>
+            </ExamineWrapper>
+        </MainWrapper>
     );
 }
 
