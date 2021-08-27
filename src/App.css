@@ -149,3 +149,7 @@ a {
 b {
     font-weight: bolder;
 }
+
+.goto-main {
+    text-align: center;
+}

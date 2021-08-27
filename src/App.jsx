@@ -15,8 +15,6 @@ const store = configureStore({
     reducer: rootReducer
 });
 
-store.subscribe(() => console.log(store.getState()));
-
 function App() {
     return (
         <Provider store={store}>
