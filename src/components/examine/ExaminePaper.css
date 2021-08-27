@@ -2,20 +2,6 @@
     text-align: center;
 }
 
-.next-button-area {
-    width: 47%;
-    text-align: center;
-    display: inline-block;
-}
-
-.next-button-area button {
-    width: 100%;
-}
-
-.next-button-area label:not(button) {
-    font-size: 12px;
-}
-
 .progress {
     background-color: gray;
     height: 25px;
@@ -25,21 +11,8 @@
     background-color: #ffbf7c;
 }
 
-.question-list {
-    padding: 10px 15px;
-}
-
-.question-list p {
-    font-weight: bold;
-}
-
-.answer-list {
-    display: flex;
-    justify-content: space-around;
-}
-
 .radio-btn-area {
-    padding: 5px;
+    padding: 10px;
 }
 
 .radio-btn-area .form-check-label {
