@@ -34,6 +34,7 @@ const QuestionList = React.memo(function QuestionArea({ question, setCount }) {
 
     return (
         <QuestionListLayout
+            isExample={false}
             qitemNo={qitemNo}
             question={question}
             answerOptions={answerOptions}
@@ -43,7 +44,14 @@ const QuestionList = React.memo(function QuestionArea({ question, setCount }) {
     );
 });
 
-export function QuestionListLayout({ qitemNo, question, answerOptions, defaultChecked, onChange }) {
+export function QuestionListLayout({
+    isExample,
+    qitemNo,
+    question,
+    answerOptions,
+    defaultChecked,
+    onChange
+}) {
     return (
         <QuestionBox>
             <Question>
@@ -51,21 +59,36 @@ export function QuestionListLayout({ qitemNo, question, answerOptions, defaultCh
                 {question.question}
             </Question>
             <AnswerOption>
-                {answerOptions.map(option => (
-                    <FormCheck
-                        className="radio-btn-area"
-                        type="radio"
-                        inline
-                        label={option.answer}
-                        id={option.id}
-                        key={option.id}
-                        name={option.qitemNo}
-                        checked={option.answerScore === defaultChecked}
-                        value={option.answerScore}
-                        required
-                        onChange={e => onChange(e)}
-                    />
-                ))}
+                {answerOptions.map(option =>
+                    isExample ? (
+                        <FormCheck
+                            type="radio"
+                            className="radio-btn-area"
+                            inline
+                            label={option.answer}
+                            id={option.id}
+                            key={option.key}
+                            name={option.qitemNo}
+                            value={option.answerScore}
+                            required
+                            onChange={e => onChange(e)}
+                        />
+                    ) : (
+                        <FormCheck
+                            type="radio"
+                            className="radio-btn-area"
+                            inline
+                            label={option.answer}
+                            id={option.id}
+                            key={option.key}
+                            name={option.qitemNo}
+                            checked={!isExample && option.answerScore === defaultChecked}
+                            value={option.answerScore}
+                            required
+                            onChange={e => onChange(e)}
+                        />
+                    )
+                )}
             </AnswerOption>
         </QuestionBox>
     );
@@ -87,7 +110,7 @@ const QuestionBox = styled.div`
     font-size: ${FontSize.middle1};
     background-color: ${Colors.mainGray};
     text-align: center;
-    padding: 25px 20px;
+    padding: 18px;
     margin-bottom: 25px;
     border-radius: 14px;
     box-shadow: 0px 2px 6px 1px ${Colors.shadowGray};
