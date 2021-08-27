@@ -6,10 +6,10 @@ const initialState = {
     answer_sheet: {
         apikey: process.env.REACT_APP_API_KEY,
         qestrnSeq: "6", //심리 검사 번호
-        trgetSe: "100209", //직업 가치관 검사 대상 번호 ([todo] 추후 유저 정보를 구분해줄 것)
+        trgetSe: "100209",
         name: "",
         gender: "",
-        grade: "", //[todo] 일반 대상인데 grade 항목이 필수 조건인지 확인)
+        grade: "",
         email: "",
         startDtm: null,
         answers: ""
