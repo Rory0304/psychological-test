@@ -1,6 +1,4 @@
 import { useSelector } from "react-redux";
-import styled, { keyframes } from "styled-components";
-
 import "./ValueGraph.css";
 
 function ValueGraph() {
@@ -39,7 +37,7 @@ function ValueGraph() {
 
     const ticks = [];
     for (let i = 0; i < 10; i++) {
-        ticks.push(<div class="tick"></div>);
+        ticks.push(<div className="tick"></div>);
     }
 
     return (
