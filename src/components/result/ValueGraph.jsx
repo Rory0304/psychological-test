@@ -7,36 +7,30 @@ function ValueGraph() {
 
     const cols = (
         <tr>
-            {score_data.map(
-                (score, index) =>
-                    score.score && (
-                        <th scope="col" key={index}>
-                            {score.jobValue}
-                        </th>
-                    )
-            )}
+            {score_data.map((score, index) => (
+                <th scope="col" key={index}>
+                    {score.jobValue}
+                </th>
+            ))}
         </tr>
     );
 
     const rows = (
         <tr>
-            {score_data.map(
-                (score, index) =>
-                    score.score && (
-                        <td
-                            id={`bar${index}`}
-                            key={index}
-                            style={{ height: `${50 * score.score}px` }}
-                        >
-                            {score.score}
-                        </td>
-                    )
-            )}
+            {score_data.map((score, index) => (
+                <td
+                    id={`bar${index}`}
+                    key={index}
+                    style={{ height: `${score.score === 0 ? 18 : 50 * score.score}px` }}
+                >
+                    <span>{score.score}</span>
+                </td>
+            ))}
         </tr>
     );
 
     const ticks = [];
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 11; i++) {
         ticks.push(<div className="tick"></div>);
     }
 
