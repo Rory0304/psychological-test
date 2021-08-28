@@ -9,13 +9,6 @@ import ExaminePaper from "./components/examine/ExaminePaper";
 export default function Routes() {
     const { name, gender } = useSelector(state => state.qaData.answer_sheet);
 
-    window.onpopstate = function (event) {
-        if (event) {
-            alert("변경사항이 저장되지 않을 수 있습니다.");
-            window.location.reload();
-        }
-    };
-
     return (
         <BrowserRouter>
             <>
