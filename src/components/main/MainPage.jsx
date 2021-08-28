@@ -37,7 +37,7 @@ function MainPage() {
 
     return (
         <MainWrapper center={true}>
-            <main>
+            <main role="main">
                 <IntroWrapper>
                     <h1>직업 가치관 검사</h1>
                     <p>

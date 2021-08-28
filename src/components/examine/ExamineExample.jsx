@@ -49,7 +49,7 @@ function ExamineExample() {
                     </h2>
                     <ProgressBar now={progress} visuallyhidden={true} />
                 </header>
-                <main>
+                <main role="main">
                     <ExamineManual>
                         <p>
                             직업과 관련된 두 개의 가치 중에서 자기에게 더 중요한 가치에 표시하세요.

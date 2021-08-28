@@ -44,7 +44,7 @@ function ExaminePaper() {
                     </h2>
                     <ProgressBar now={progress} visuallyhidden={true} />
                 </header>
-                <main>
+                <main role="main">
                     {questionData.slice(offset, offset + limit).map(question => (
                         <QuestionList
                             question={question}
