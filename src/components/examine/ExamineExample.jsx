@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { FontSize } from "../common/StyledConstants";
@@ -26,28 +25,18 @@ function ExamineExample() {
         id: qitemNo + num
     }));
 
-    const [progress, setProgress] = useState(0);
-
     const [{ q0 }, onChange] = useInputs({
         q0: 0
     });
-
-    useEffect(() => {
-        if (q0 === 0) {
-            setProgress(0);
-        } else {
-            setProgress(100);
-        }
-    }, [q0]);
 
     return (
         <MainWrapper center={true}>
             <ExamineWrapper>
                 <header>
                     <h2>
-                        검사 예시 <span>{progress}%</span>
+                        검사 예시 <span>{0}%</span>
                     </h2>
-                    <ProgressBar now={progress} visuallyhidden={true} />
+                    <ProgressBar now={0} visuallyhidden={true} />
                 </header>
                 <main role="main">
                     <ExamineManual>
@@ -65,10 +54,10 @@ function ExamineExample() {
                         onChange={onChange}
                     />
                     <>
-                        <NextButtonLabel htmlFor="nextButton" status={progress !== 100}>
+                        <NextButtonLabel htmlFor="다음 버튼" status={q0 === 0}>
                             모든 문항에 응답해야 합니다.
                         </NextButtonLabel>
-                        {progress === 100 ? (
+                        {q0 !== 0 ? (
                             <Link to="/examine">
                                 <NextButton id="nextButton" disabled={false}>
                                     검사 시작
