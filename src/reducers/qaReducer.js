@@ -6,17 +6,21 @@ const initialState = {
     answer_sheet: {
         apikey: process.env.REACT_APP_API_KEY,
         qestrnSeq: "6", //심리 검사 번호
-        trgetSe: "100209", //직업 가치관 검사 대상 번호 ([todo] 추후 유저 정보를 구분해줄 것)
+        trgetSe: "100209",
         name: "",
         gender: "",
-        grade: "", //[todo] 일반 대상인데 grade 항목이 필수 조건인지 확인)
+        grade: "",
         email: "",
         startDtm: null,
         answers: ""
     },
     question_data: [],
     pre_answers: [],
-    error: ""
+    error: "",
+    pagination_data: {
+        limit: 5,
+        offset: 0
+    }
 };
 
 /* 질문 요청 */
@@ -27,6 +31,16 @@ export const fetchQuestionData = createAsyncThunk("FETCH_QUESTION_DATA", async (
         )
         .then(data => data.data.RESULT)
         .catch(error => error);
+});
+
+export const setResultAnswer = createAsyncThunk("SET_RESULT_ANSWER", async (args, ThunkAPI) => {
+    const { qaData } = ThunkAPI.getState();
+    const answerResult = qaData.pre_answers
+        .map(data => {
+            return `B${data.qitemNo}=${data.answer}`;
+        })
+        .join(" ");
+    return answerResult;
 });
 
 /* slice */
@@ -65,13 +79,23 @@ const qaDataSlice = createSlice({
                 });
             }
         },
-        setResultAnswer(state) {
-            const answerResult = state.pre_answers
-                .map(data => {
-                    return `B${data.qitemNo}=${data.answer}`;
-                })
-                .join(" ");
-            state.answer_sheet.answers = answerResult;
+        handlePrevPage(state) {
+            /* 첫 페이지일 경우 next page state에 변화를 주지 않는다. */
+            if (state.pagination_data.offset !== 0) {
+                state.pagination_data.offset =
+                    state.pagination_data.offset - state.pagination_data.limit;
+            }
+        },
+        handleNextPage(state) {
+            /* 마지막 페이지일 경우 prev stage state에 변화를 주지 않는다. */
+            if (
+                state.pagination_data.offset !==
+                state.question_data.length -
+                    (state.question_data.length % state.pagination_data.limit)
+            ) {
+                state.pagination_data.offset =
+                    state.pagination_data.offset + state.pagination_data.limit;
+            }
         }
     },
     extraReducers: builder => {
@@ -90,9 +114,14 @@ const qaDataSlice = createSlice({
             state.question_data = [];
             state.error = action.payload;
         });
+
+        builder.addCase(setResultAnswer.fulfilled, (state, action) => {
+            state.answer_sheet.answers = action.payload;
+        });
     }
 });
 
-export const { setResultAnswer, inputUserInfo, inputAnswer, resetState } = qaDataSlice.actions;
+export const { inputUserInfo, inputAnswer, resetState, handlePrevPage, handleNextPage } =
+    qaDataSlice.actions;
 
 export default qaDataSlice;

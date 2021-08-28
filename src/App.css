@@ -136,3 +136,20 @@ table {
     margin: -1px;
     overflow: hidden;
 }
+
+@import url("https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap");
+body {
+    font-family: "Nanum Gothic", sans-serif;
+}
+
+a {
+    display: block;
+}
+
+b {
+    font-weight: bolder;
+}
+
+.goto-main {
+    text-align: center;
+}

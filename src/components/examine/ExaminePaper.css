@@ -1,50 +1,18 @@
-.main-wrapper header span {
-    position: absolute;
-    right: 0;
-    top: 0;
-}
-
 .pagination-wrapper {
     text-align: center;
 }
 
-.next-button-area {
-    width: 47%;
-    text-align: center;
-    display: inline-block;
-}
-
-.next-button-area button {
-    width: 100%;
-}
-
-.next-button-area label:not(button) {
-    font-size: 12px;
-}
-
 .progress {
     background-color: gray;
+    height: 25px;
 }
 
 .progress-bar {
-    background-color: var(--yellow) !important;
-}
-
-.question-list {
-    padding: 10px 15px;
-}
-
-.question-list p {
-    font-weight: bold;
-}
-
-.answer-list {
-    display: flex;
-    justify-content: space-around;
+    background-color: #ffbf7c;
 }
 
 .radio-btn-area {
-    padding: 5px;
+    padding: 10px;
 }
 
 .radio-btn-area .form-check-label {
