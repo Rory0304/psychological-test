@@ -29,7 +29,16 @@ function ResultPage() {
     );
 }
 
+/* 검사 예시 페이지 */
 function ResultPreview({ setViewStatus }) {
+    const { name } = useSelector(state => state.qaData.answer_sheet);
+    const { bestTwo, worstTwo } = useSelector(state => state.resultData);
+    const { setResultPreview } = useActions();
+
+    useEffect(() => {
+        setResultPreview();
+    }, []);
+
     return (
         <MainWrapper center={true}>
             <main role="main">
@@ -40,6 +49,15 @@ function ResultPreview({ setViewStatus }) {
                         생각하는지를 알려주고, 중요 가치를 충족시켜줄 수 있는 직업에 대해 생각해 볼
                         기회를 제공합니다.
                     </p>
+                    <p>
+                        직업생활과 관련하여 <b>{name}</b>님은<b> {bestTwo[0]}</b>(와)과{" "}
+                        <b>{bestTwo[1]}</b>
+                        (을)를 가장 중요하게 생각합니다. 반면에{" "}
+                        <b>
+                            {worstTwo[0]},{worstTwo[1]}
+                        </b>
+                        은(는) 상대적으로 덜 중요하게 생각합니다.
+                    </p>
                     <ViewResultButton type="button" onClick={() => setViewStatus(true)}>
                         결과 확인하기
                     </ViewResultButton>
@@ -49,14 +67,15 @@ function ResultPreview({ setViewStatus }) {
     );
 }
 
+/* 검사 결과 페이지 */
 function ResultPaper() {
     const { loading, score_data, jobdata_edu, jobdata_major } = useSelector(
         state => state.resultData
     );
-    const { setResultData } = useActions();
+    const { setAllResultData } = useActions();
 
     useEffect(() => {
-        setResultData();
+        setAllResultData();
     }, []);
 
     if (
