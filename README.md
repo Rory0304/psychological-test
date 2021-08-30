@@ -1,7 +1,10 @@
-[개발 일지](https://kdt-gitlab.elice.io/002-part2-psychologicaltest/team3/2-201-psychologicaltest/-/wikis/%EC%9D%BC%EC%9D%BC-%EA%B0%9C%EB%B0%9C-%EA%B8%B0%EB%A1%9D)
+### 스택
+`React`  
+`Redux / Redux toolkit`  
+`styled components`  
+`axios`
 
-
-### 커밋 유형
+### 커밋 규칙
 
 `FEAT`  새로운 기능의 추가  
 `FIX`  버그 수정  
