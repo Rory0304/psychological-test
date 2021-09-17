@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { FontSize, Colors } from "./StyledConstants";
+import tw, { styled } from "twin.macro";
+import { FontSize } from "./StyledConstants";
 
 export const MainWrapper = styled.div`
     width: 100%;
@@ -7,25 +7,17 @@ export const MainWrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-
     & > main {
-        width: 70%;
+        ${tw`w-8/12`}
     }
 `;
 
 export const IntroWrapper = styled.div`
     & > h1 {
-        font-size: ${FontSize.veryBig};
-        font-weight: bold;
-        padding-bottom: 20px;
-        border-bottom: 4px solid ${Colors.mainBlue};
+        ${tw`pb-5 text-5xl font-bold border-b-4 border-blue`}
     }
-
     & > p {
-        font-size: ${FontSize.middle1};
-        line-height: 24px;
-        color: ${Colors.fontGray};
-        padding: 35px 0;
+        ${tw`text-2xl leading-snug md:leading-normal py-7 text-gray-fontgray`}
     }
 `;
 

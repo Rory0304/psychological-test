@@ -1,9 +1,9 @@
-import { FormCheck } from "react-bootstrap";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { inputAnswer } from "../../reducers/qaReducer";
 import styled from "styled-components";
-import { Colors, FontSize } from "../common/StyledConstants";
+import RadioInput from "../../components/RadioInput";
+import { Colors, FontSize } from "../../components/StyledConstants";
 
 const QuestionList = React.memo(function QuestionArea({ question, setCount }) {
     //01번, 02번이 질문 사항이고, 나머지(03 ~ 10)는 질문 용어에 대한 설명임.
@@ -61,31 +61,24 @@ export function QuestionListLayout({
             <AnswerOption>
                 {answerOptions.map(option =>
                     isExample ? (
-                        <FormCheck
-                            type="radio"
-                            className="radio-btn-area"
-                            inline
+                        <RadioInput
                             label={option.answer}
-                            id={option.id}
                             key={option.key}
                             name={option.qitemNo}
                             value={option.answerScore}
-                            required
                             onChange={e => onChange(e)}
                         />
                     ) : (
-                        <FormCheck
-                            type="radio"
-                            className="radio-btn-area"
-                            inline
+                        <RadioInput
                             label={option.answer}
-                            id={option.id}
                             key={option.key}
                             name={option.qitemNo}
-                            checked={!isExample && option.answerScore === defaultChecked}
                             value={option.answerScore}
-                            required
                             onChange={e => onChange(e)}
+                            checked={
+                                !isExample &&
+                                option.answerScore === defaultChecked
+                            }
                         />
                     )
                 )}

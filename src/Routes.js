@@ -1,14 +1,12 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
-import MainPage from "./components/main/MainPage";
-import ResultPage from "./components/result/ResultPage";
-import ExamineExample from "./components/examine/ExamineExample";
-import ExaminePaper from "./components/examine/ExaminePaper";
+import MainPage from "./pages/main/MainPage";
+import ResultPage from "./pages/result/ResultPage";
+import ExamineExample from "./pages/examine/ExamineExample";
+import ExaminePaper from "./pages/examine/ExaminePaper";
 
 export default function Routes() {
-    const { name, gender } = useSelector(state => state.qaData.answer_sheet);
-
     return (
         <BrowserRouter>
             <>
@@ -16,17 +14,39 @@ export default function Routes() {
                     <Route exact path="/">
                         <MainPage />
                     </Route>
-                    <Route exact path="/examine-example">
-                        {name && gender ? <ExamineExample /> : <Redirect to="/" />}
-                    </Route>
-                    <Route exact path="/examine">
-                        {name && gender ? <ExaminePaper /> : <Redirect to="/" />}
-                    </Route>
-                    <Route exact path="/result-view">
-                        {name && gender ? <ResultPage /> : <Redirect to="/" />}
-                    </Route>
+                    <PrivateRoute
+                        exact
+                        path="/examine-example"
+                        component={ExamineExample}
+                    />
+                    <PrivateRoute
+                        exact
+                        path="/examine"
+                        component={ExaminePaper}
+                    />
+                    <PrivateRoute
+                        exact
+                        path="/result-view"
+                        component={ResultPage}
+                    />
                 </Switch>
             </>
         </BrowserRouter>
     );
 }
+
+export const PrivateRoute = ({ component: Component }) => {
+    const { name, gender } = useSelector(state => state.qaData.answer_sheet);
+
+    return (
+        <Route
+            render={props =>
+                name && gender ? (
+                    <Component {...props} />
+                ) : (
+                    <Redirect to={{ pathname: "/" }} />
+                )
+            }
+        />
+    );
+};

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { FontSize } from "../common/StyledConstants";
+import { FontSize } from "../../components/StyledConstants";
 import { useSelector } from "react-redux";
 
 export default function TableLayOut({ title, caption, cols, rows, colgroup }) {

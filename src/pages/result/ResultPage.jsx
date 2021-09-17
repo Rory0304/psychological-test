@@ -3,12 +3,12 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-import useActions from "../hooks/useActions";
-import { FontSize, Colors } from "../common/StyledConstants";
+import useActions from "../../hooks/useActions";
+import { FontSize, Colors } from "../../components/StyledConstants";
 import { UserInfo, MajorTable, EduTable } from "./Table";
 import ValueGraph from "./ValueGraph";
-import { ViewResultButton, MoveToMainButton } from "../common/Button";
-import { MainWrapper, IntroWrapper } from "../common/Wrapper";
+import { ViewResultButton, MoveToMainButton } from "../../components/Button";
+import { MainWrapper, IntroWrapper } from "../../components/Wrapper";
 
 function ResultPage() {
     const [viewStatus, setViewStatus] = useState(false);

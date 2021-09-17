@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { FontSize } from "../common/StyledConstants";
+import { FontSize } from "../../components/StyledConstants";
 
-import useInputs from "../hooks/useInput";
-import { NextButton, NextButtonLabel } from "../common/Button";
-import { ProgressBar } from "react-bootstrap";
-import { ExamineWrapper, MainWrapper } from "../common/Wrapper";
+import useInputs from "../../hooks/useInput";
+import { NextButton, NextButtonLabel } from "../../components/Button";
+import { ExamineWrapper, MainWrapper } from "../../components/Wrapper";
+import ProgressBar from "../../components/ProgressBar";
 import { QuestionListLayout } from "./QuestionList";
 
 function ExamineExample() {
@@ -36,14 +36,15 @@ function ExamineExample() {
                     <h2>
                         검사 예시 <span>{0}%</span>
                     </h2>
-                    <ProgressBar now={0} visuallyhidden={true} />
+                    <ProgressBar progress={0} />
                 </header>
                 <main role="main">
                     <ExamineManual>
                         <p>
-                            직업과 관련된 두 개의 가치 중에서 자기에게 더 중요한 가치에 표시하세요.
-                            <br /> 가치의 뜻을 잘 모르겠다면 문항 아래에 있는 가치의 설명을
-                            확인해보세요.
+                            직업과 관련된 두 개의 가치 중에서 자기에게 더 중요한
+                            가치에 표시하세요.
+                            <br /> 가치의 뜻을 잘 모르겠다면 문항 아래에 있는
+                            가치의 설명을 확인해보세요.
                         </p>
                     </ExamineManual>
                     <QuestionListLayout

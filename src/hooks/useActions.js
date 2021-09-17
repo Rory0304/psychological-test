@@ -1,11 +1,11 @@
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { setResultAnswer } from "../../reducers/qaReducer";
+import { setResultAnswer } from "../reducers/qaReducer";
 import {
     fetchScoreData,
     fetchJobDataByEducation,
     fetchJobDataByMajor
-} from "../../reducers/resultReducer";
+} from "../reducers/resultReducer";
 
 function useActions() {
     const dispatch = useDispatch();

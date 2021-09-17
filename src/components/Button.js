@@ -1,20 +1,19 @@
-import styled from "styled-components";
 import { Colors, FontSize } from "./StyledConstants";
+import tw, { styled } from "twin.macro";
 
 export const StartButton = styled.button`
+    display: block;
     width: 25%;
     margin-top: 1rem;
-    font-size: 15px;
     font-weight: bold;
     margin: 0 auto;
-    padding: 10px 8px;
-    border: 2px solid ${Colors.mainBlue};
+    padding: 8px;
+    border: ${tw`border-2 border-blue`};
     border-radius: 8px;
-    background-color: ${props => (props.status ? Colors.mainBlue : Colors.mainWhite)};
-    color: ${props => (props.status ? Colors.mainWhite : Colors.mainBlue)};
-    font-size: ${FontSize.middle2};
+    ${props => (props.status ? tw`bg-blue` : tw`bg-white`)};
+    ${props => (props.status ? tw`text-white` : tw`text-blue`)};
     &:hover {
-        box-shadow: 1px 1px 5px 1px ${Colors.shadowGray};
+        ${tw`shadow`}
     }
 `;
 
@@ -36,7 +35,7 @@ export const PrevButton = styled.button`
     font-size: ${FontSize.middle2};
     visibility: ${props => (props.status ? "hidden" : "visible")};
     &:hover {
-        box-shadow: 1px 1px 5px 1px ${Colors.shadowGray};
+        ${tw`shadow`}
     }
 `;
 
@@ -54,7 +53,7 @@ export const NextButton = styled.button`
     border: none;
     padding: 8px 15px;
     border-radius: 11px;
-    background-color: ${Colors.mainBlue};
+    ${tw`bg-blue`};
     color: #fff;
     transition: background-color 0.5s ease;
     font-size: ${FontSize.middle2};
@@ -64,15 +63,14 @@ export const NextButton = styled.button`
     }
 
     &:hover {
-        box-shadow: 1px 1px 5px 1px ${Colors.shadowGray};
+        ${tw`shadow`}
     }
 `;
 export const ViewResultButton = styled.button`
     display: block;
-    background-color: "white";
     width: 50%;
-    background-color: ${Colors.mainBlue};
-    color: ${Colors.mainWhite};
+    ${tw`bg-blue`};
+    ${tw`text-white`};
     border: 0;
     padding: 15px 10px;
     margin: 0 auto;
@@ -80,8 +78,8 @@ export const ViewResultButton = styled.button`
 
 export const MoveToMainButton = styled.button`
     width: 50%;
-    background-color: ${Colors.mainBlue};
-    color: ${Colors.mainWhite};
+    ${tw`bg-blue`};
+    ${tw`text-white`};
     border: 0;
     padding: 15px 10px;
     margin: 0 auto;

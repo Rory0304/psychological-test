@@ -4,7 +4,6 @@ import Route from "./Routes";
 
 import qaDataSlice from "./reducers/qaReducer";
 import resultDataSlice from "./reducers/resultReducer";
-import "./App.css";
 
 const rootReducer = combineReducers({
     qaData: qaDataSlice.reducer,
@@ -15,10 +14,14 @@ const store = configureStore({
     reducer: rootReducer
 });
 
+store.subscribe(() => console.log(store.getState()));
+
 function App() {
     return (
         <Provider store={store}>
-            <Route></Route>
+            <div className="font-body">
+                <Route></Route>
+            </div>
         </Provider>
     );
 }
