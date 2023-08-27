@@ -1,14 +1,20 @@
+import React from "react";
+
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { FontSize } from "../common/StyledConstants";
+import { Typography, Colors } from "src/styles";
 
-import useInputs from "../hooks/useInput";
-import { NextButton, NextButtonLabel } from "../common/Button";
-import { ProgressBar } from "react-bootstrap";
+import useForm from "src/hooks/useForm";
+import ProgressBar from "react-bootstrap/ProgressBar";
 import { ExamineWrapper, MainWrapper } from "../common/Wrapper";
-import { QuestionListLayout } from "./QuestionList";
+import QuestionList from "./QuestionList";
+import useProgress from "src/hooks/useProgress";
 
-function ExamineExample() {
+interface FormDataProps {
+    q0: number;
+}
+
+const ExamineExample: React.FC = () => {
     const question = {
         question: "두 가치 중에 자기에게 더 중요한 가치를 선택하세요.",
         answer01: "능력 발휘",
@@ -17,26 +23,22 @@ function ExamineExample() {
         answerScore02: 2
     };
     const qitemNo = 0;
-    const answerOptions = ["01", "02"].map(num => ({
-        key: qitemNo + num,
-        qitemNo: "q" + qitemNo,
-        answer: question[`answer${num}`],
-        answerScore: question[`answerScore${num}`],
-        id: qitemNo + num
-    }));
-
-    const [{ q0 }, onChange] = useInputs({
-        q0: 0
+    const { formData, handleChange } = useForm<keyof FormDataProps, number>({
+        init: {
+            q0: 0
+        }
     });
+
+    const { progress } = useProgress({ total: 1, count: formData.q0 === 0 ? 0 : 1 });
 
     return (
         <MainWrapper center={true}>
             <ExamineWrapper>
                 <header>
                     <h2>
-                        검사 예시 <span>{0}%</span>
+                        검사 예시 <span>{progress}%</span>
                     </h2>
-                    <ProgressBar now={0} visuallyhidden={true} />
+                    <ProgressBar now={progress} label={`${progress}%`} visuallyHidden />
                 </header>
                 <main role="main">
                     <ExamineManual>
@@ -46,18 +48,17 @@ function ExamineExample() {
                             확인해보세요.
                         </p>
                     </ExamineManual>
-                    <QuestionListLayout
-                        isExample={true}
-                        qitemNo={qitemNo}
+                    <QuestionList
+                        questionNumber={qitemNo}
                         question={question}
-                        answerOptions={answerOptions}
-                        onChange={onChange}
+                        answeredValue={`${formData.q0}`}
+                        onInputChange={(value: string) => handleChange("q0", parseInt(value))}
                     />
                     <>
-                        <NextButtonLabel htmlFor="다음 버튼" status={q0 === 0}>
+                        <NextButtonLabel htmlFor="다음 버튼" hidden={formData.q0 !== 0}>
                             모든 문항에 응답해야 합니다.
                         </NextButtonLabel>
-                        {q0 !== 0 ? (
+                        {formData.q0 !== 0 ? (
                             <Link to="/examine">
                                 <NextButton id="nextButton" disabled={false}>
                                     검사 시작
@@ -73,14 +74,43 @@ function ExamineExample() {
             </ExamineWrapper>
         </MainWrapper>
     );
-}
+};
 
 const ExamineManual = styled.div`
     margin: 35px 0;
-    font-size: ${FontSize.middle2};
+    font-size: ${Typography.middle2};
 
     & > p {
         line-height: 24px;
     }
 `;
+
+const NextButtonLabel = styled.label<{ hidden: boolean }>`
+    width: 100%;
+    font-size: ${Typography.small};
+    visibility: ${props => (props.hidden ? "visible" : "hidden")};
+    margin-bottom: 10px;
+    text-align: center;
+`;
+
+const NextButton = styled.button`
+    width: 100%;
+    height: 50px;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 11px;
+    background-color: ${Colors.mainBlue};
+    color: #fff;
+    transition: background-color 0.5s ease;
+    font-size: ${Typography.middle2};
+
+    &:disabled {
+        opacity: 56%;
+    }
+
+    &:hover {
+        box-shadow: 1px 1px 5px 1px ${Colors.shadowGray};
+    }
+`;
+
 export default ExamineExample;

@@ -6,8 +6,10 @@ import ResultPage from "./components/result/ResultPage";
 import ExamineExample from "./components/examine/ExamineExample";
 import ExaminePaper from "./components/examine/ExaminePaper";
 
+import type { RootState } from "./store";
+
 export default function Routes() {
-    const { name, gender } = useSelector(state => state.qaData.answer_sheet);
+    const { name, gender } = useSelector((state: RootState) => state.psyUserInfo);
 
     return (
         <BrowserRouter>

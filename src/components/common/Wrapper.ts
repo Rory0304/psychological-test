@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { FontSize, Colors } from "./StyledConstants";
+import { Colors, Typography } from "../../styles";
 
-export const MainWrapper = styled.div`
+export const MainWrapper = styled.div<{ center: boolean }>`
     width: 100%;
     height: ${props => (props.center ? "100vh" : "auto")};
     display: flex;
@@ -15,15 +15,14 @@ export const MainWrapper = styled.div`
 
 export const IntroWrapper = styled.div`
     & > h1 {
-        font-size: ${FontSize.veryBig};
+        font-size: ${Typography.veryBig};
         font-weight: bold;
         padding-bottom: 20px;
         border-bottom: 4px solid ${Colors.mainBlue};
     }
 
     & > p {
-        font-size: ${FontSize.middle1};
-        line-height: 24px;
+        font-size: ${Typography.middle1};
         color: ${Colors.fontGray};
         padding: 35px 0;
     }
@@ -34,7 +33,7 @@ export const ExamineWrapper = styled.div`
     margin: 0 auto;
 
     & > header {
-        font-size: ${FontSize.big};
+        font-size: ${Typography.big};
         position: relative;
         margin: 20px 0;
 
