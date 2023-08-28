@@ -29,12 +29,10 @@ function ExaminePaper() {
         if (questionData.length <= 0) {
             dispatch(fetchQuestionData());
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [questionData]);
 
     React.useEffect(() => {
         dispatch(setAnswerSheet({ total: questionData?.length ?? 0 }));
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [questionData]);
 
     if (loading && questionData.length === 0) {
@@ -56,9 +54,8 @@ function ExaminePaper() {
                 <main role="main">
                     <ol>
                         {questionData.slice(offset, offset + count).map(question => (
-                            <li>
+                            <li key={question.qitemNo}>
                                 <ExamineQuestionItem
-                                    key={question.qitemNo}
                                     question={question}
                                     questionNumber={question.qitemNo}
                                     answeredValue={

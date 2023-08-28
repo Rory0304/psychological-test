@@ -1,12 +1,12 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { Form } from "react-bootstrap";
 import styled from "styled-components";
 
 import { MainWrapper, IntroWrapper } from "../common/Wrapper";
 import { Colors, Typography } from "src/styles";
 import useForm from "src/hooks/useForm";
+import { useAppDispatch } from "src/hooks/useAppDispatch";
 
 import { setUserInfo, resetUserInfo } from "src/modules/psyUserInfo";
 import { resetUserAnswer } from "src/modules/psyAnswerSheet";
@@ -24,7 +24,7 @@ interface FormDataProps {
 
 const MainPage: React.FC = () => {
     const history = useHistory();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const { formData, handleChange } = useForm<keyof FormDataProps, string>({
         init: {
@@ -40,7 +40,6 @@ const MainPage: React.FC = () => {
         dispatch(resetUserInfo());
         dispatch(resetUserAnswer());
         dispatch(resetPage());
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -105,9 +104,7 @@ const MainPage: React.FC = () => {
                                 />
                             </InputRadioDiv>
                         </Form.Group>
-                        <StartButton hidden={!Boolean(!!username && !!gender)}>
-                            검사시작
-                        </StartButton>
+                        <StartButton hidden={!username || !gender}>검사시작</StartButton>
                     </Form>
                 </FormWrapper>
             </main>

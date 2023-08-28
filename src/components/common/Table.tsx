@@ -47,10 +47,10 @@ export const StyledTr = styled.tr`
 const Table: React.FC<TableProps> = ({ title, caption, colgroup, cols, rows }) => {
     return (
         <>
-            {!!title ? <h3>{title}</h3> : null}
+            {title ? <h3>{title}</h3> : null}
             <StyledTable>
                 <caption className="visually-hidden">{caption}</caption>
-                {!!colgroup ? colgroup : null}
+                {colgroup ? colgroup : null}
                 <thead>{cols}</thead>
                 <tbody>{rows}</tbody>
             </StyledTable>

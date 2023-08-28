@@ -21,7 +21,6 @@ const PreviewPage: React.FC<PreviewPageProps> = ({ onResultPageShow }) => {
         if (answerData && userData) {
             return dispatch(fetchScoreData(userData, answerData));
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [answerData, userData]);
 
     if (loading) {

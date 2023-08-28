@@ -41,22 +41,25 @@ type PsyAnswerSheetActionTypes =
 //
 const reducer = (state: PsyAnswerSheetType = INITIAL_STATE, action: PsyAnswerSheetActionTypes) => {
     switch (action.type) {
-        case SET_ANSWER_SHEET:
+        case SET_ANSWER_SHEET: {
             const total = action.payload.total;
             return {
                 ...state,
                 answer_sheet: Array(total)
             };
+        }
 
-        case SET_USER_ANSWER:
+        case SET_USER_ANSWER: {
             const { qitemNo, answer } = action.payload;
 
             return produce(state, draft => {
                 draft.answer_sheet[qitemNo - 1] = { qitemNo, answer };
             });
+        }
 
-        case RESET_USER_ANSWER:
+        case RESET_USER_ANSWER:{
             return INITIAL_STATE;
+        }
 
         default:
             return state;

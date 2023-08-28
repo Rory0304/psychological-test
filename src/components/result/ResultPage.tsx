@@ -46,7 +46,6 @@ const ResultPaper: React.FC = () => {
     React.useEffect(() => {
         dispatch(fetchJobDataByMajor(no1, no2));
         dispatch(fetchJobDataByEducation(no1, no2));
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [no1, no2]);
 
     if (

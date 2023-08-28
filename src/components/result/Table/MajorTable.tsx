@@ -23,7 +23,7 @@ const MajorTable: React.FC<MajorTableProps> = ({ jobDataMajor }) => {
 
     const rows = jobDataMajor.map((md, index) =>
         md.jobs ? (
-            <StyledTr key={index}>
+            <StyledTr key={`jobs-${index}`}>
                 <th scope="row">{md.major}</th>
                 <td>{md.jobs}</td>
             </StyledTr>

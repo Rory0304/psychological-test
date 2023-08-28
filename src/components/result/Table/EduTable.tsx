@@ -24,7 +24,7 @@ const EduTable: React.FC<EduTableProps> = ({ jobDataEdu }) => {
     const rows = jobDataEdu.map(
         (ed, index) =>
             ed.jobs && (
-                <StyledTr key={index}>
+                <StyledTr key={`edu-${index}`}>
                     <th scope="row">{ed.edu}</th>
                     <td>{ed.jobs}</td>
                 </StyledTr>

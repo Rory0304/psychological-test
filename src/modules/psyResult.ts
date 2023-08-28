@@ -54,7 +54,7 @@ const FETCH_JOBDATA_MAJOR_ERROR = "psy_result/FETCH_JOBDATA_MAJOR_ERROR" as cons
 const fetchScoreRequest = () => ({
     type: FETCH_SCORE_REQUEST
 });
-const fetchScoreSuccess = (data: any[]) => ({ type: FETCH_SCORE_SUCCESS, payload: { data } });
+const fetchScoreSuccess = (data: string[]) => ({ type: FETCH_SCORE_SUCCESS, payload: { data } });
 const fetchScoreError = (errorMessage: string) => ({
     type: FETCH_SCORE_ERROR,
     payload: { errorMessage }
@@ -64,7 +64,7 @@ const fetchScoreError = (errorMessage: string) => ({
 const fetchJobDataEduRequest = () => ({
     type: FETCH_JOBDATA_EDU_REQUEST
 });
-const fetchJobDataEduSuccess = (data: any[]) => ({
+const fetchJobDataEduSuccess = (data: [number, string, number][]) => ({
     type: FETCH_JOBDATA_EDU_SUCCESS,
     payload: { data }
 });
@@ -77,7 +77,7 @@ const fetchJobDataEduError = (errorMessage: string) => ({
 const fetchJobDataMajorRequest = () => ({
     type: FETCH_JOBDATA_MAJOR_REQUEST
 });
-const fetchJobDataMajorSuccess = (data: any[]) => ({
+const fetchJobDataMajorSuccess = (data: [number, string, number][]) => ({
     type: FETCH_JOBDATA_MAJOR_SUCCESS,
     payload: { data }
 });
@@ -212,7 +212,7 @@ const reducer = (state: PsyResultProps = INITIAL_STATE, action: PsyResultType) =
         case "psy_result/FETCH_JOBDATA_EDU_SUCCESS":
             return produce(state, draft => {
                 draft.jobdata_edu = EDU_INFO_LIST.map(edudata => {
-                    let jobListByEdu: any[] = [];
+                    const jobListByEdu: string[] = [];
                     action.payload.data.forEach(jobdata => {
                         if (jobdata[2] === edudata.key) {
                             jobListByEdu.push(jobdata[1]);
@@ -235,7 +235,7 @@ const reducer = (state: PsyResultProps = INITIAL_STATE, action: PsyResultType) =
         case "psy_result/FETCH_JOBDATA_MAJOR_SUCCESS":
             return produce(state, draft => {
                 draft.jobdata_major = MAJOR_INFO_LIST.map(majordata => {
-                    let jobListByMajor: any[] = [];
+                    const jobListByMajor: string[] = [];
                     action.payload.data.forEach(jobdata => {
                         if (jobdata[2] === majordata.key) {
                             jobListByMajor.push(jobdata[1]);

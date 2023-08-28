@@ -1,13 +1,14 @@
 import React from "react";
 
 import { FormCheck } from "react-bootstrap";
-import { useDispatch } from "react-redux";
 import { setUserAnswer } from "src/modules/psyAnswerSheet";
 import styled from "styled-components";
 import { Colors, Typography } from "src/styles";
+import { useAppDispatch } from "src/hooks/useAppDispatch";
+import type { QuestionDataProps } from "src/types/psyQuestion";
 
 interface ExamineQuestionItemProps {
-    question: any;
+    question: Partial<QuestionDataProps>;
     questionNumber: number;
     answeredValue: string;
     onInputChange?: (value: string) => void;
@@ -19,16 +20,16 @@ const ExamineQuestionItem: React.FC<ExamineQuestionItemProps> = ({
     answeredValue,
     onInputChange
 }) => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     //01번, 02번이 질문 사항이고, 나머지(03 ~ 10)는 질문 용어에 대한 설명임.
     const answerOptions = ["01", "02"].map(num => ({
         key: questionNumber + num,
         qitemNo: "q" + questionNumber,
-        answer: question[`answer${num}`],
-        answerScore: question[`answerScore${num}`],
+        answer: question[`answer${num}` as keyof QuestionDataProps],
+        answerScore: question[`answerScore${num}` as keyof QuestionDataProps] ?? "",
         id: questionNumber + num,
-        checked: answeredValue === question[`answerScore${num}`]
+        checked: answeredValue === question[`answerScore${num}` as keyof QuestionDataProps]
     }));
 
     const handleRadioInputChange = (value: string) => {
