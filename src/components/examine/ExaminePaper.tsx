@@ -3,7 +3,7 @@ import { useAppSelector } from "src/hooks/useAppSelector";
 import { useAppDispatch } from "src/hooks/useAppDispatch";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import { fetchQuestionData, handleNextPage, handlePrevPage } from "../../modules/psyQuestion";
-import QuestionList from "./QuestionList";
+import ExamineQuestionItem from "./ExamineQuestionItem";
 import Pagination from "./Pagination";
 import { LoadingPage } from "../common/LoadingPage";
 import { ExamineWrapper, MainWrapper } from "../common/Wrapper";
@@ -54,14 +54,20 @@ function ExaminePaper() {
                     <ProgressBar visuallyHidden now={progress} label={`${progress}%`} />
                 </header>
                 <main role="main">
-                    {questionData.slice(offset, offset + count).map(question => (
-                        <QuestionList
-                            key={question.qitemNo}
-                            question={question}
-                            questionNumber={question.qitemNo}
-                            answeredValue={answer_sheet[question.qitemNo - 1]?.answer ?? "0"}
-                        />
-                    ))}
+                    <ol>
+                        {questionData.slice(offset, offset + count).map(question => (
+                            <li>
+                                <ExamineQuestionItem
+                                    key={question.qitemNo}
+                                    question={question}
+                                    questionNumber={question.qitemNo}
+                                    answeredValue={
+                                        answer_sheet[question.qitemNo - 1]?.answer ?? "0"
+                                    }
+                                />
+                            </li>
+                        ))}
+                    </ol>
                     <Pagination
                         total={questionData.length}
                         count={count}
