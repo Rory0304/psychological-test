@@ -25,19 +25,19 @@ export const setUserInfo = (
 });
 export const resetUserInfo = () => ({ type: RESET_USER_INFO });
 
-type PsyUserInfoType = ReturnType<typeof setUserInfo> | ReturnType<typeof resetUserInfo>;
+type PsyUserInfoActionType = ReturnType<typeof setUserInfo> | ReturnType<typeof resetUserInfo>;
 
 //
 //
 //
-const reducer = (state: PsyUserInfoProps = INITIAL_STATE, action: PsyUserInfoType) => {
+const reducer = (state: PsyUserInfoProps = INITIAL_STATE, action: PsyUserInfoActionType) => {
     switch (action.type) {
         case SET_USER_INFO:
             return {
                 ...state,
-                name: action.payload.name,
-                gender: action.payload.gender,
-                startDtm: action.payload.startDtm
+                name: action.payload.name ?? "",
+                gender: action.payload.gender ?? "male",
+                startDtm: new Date().getTime()
             };
 
         case RESET_USER_INFO:

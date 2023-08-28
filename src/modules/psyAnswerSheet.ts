@@ -1,13 +1,13 @@
 import { produce } from "immer";
-import { PsyAnswerSheetProps } from "../types/psyAnswerSheet";
+import { PsyAnswerSheetType, PsyAnswerSheetItemType } from "../types/psyAnswerSheet";
 
 //
 //
 //
-const INITIAL_STATE: PsyAnswerSheetProps = {
+const INITIAL_STATE: PsyAnswerSheetType = {
     qestrnSeq: "6", //심리 검사 번호
     trgetSe: "100209",
-    answer_sheet: []
+    answer_sheet: [] as PsyAnswerSheetItemType[]
 };
 
 //
@@ -39,7 +39,7 @@ type PsyAnswerSheetActionTypes =
 //
 //
 //
-const reducer = (state: PsyAnswerSheetProps = INITIAL_STATE, action: PsyAnswerSheetActionTypes) => {
+const reducer = (state: PsyAnswerSheetType = INITIAL_STATE, action: PsyAnswerSheetActionTypes) => {
     switch (action.type) {
         case SET_ANSWER_SHEET:
             const total = action.payload.total;

@@ -2,7 +2,7 @@ import { PsyResultProps } from "../types/psyResult";
 import { JOB_VALUES, EDU_INFO_LIST, MAJOR_INFO_LIST } from "../constants/psyResult";
 import axios from "axios";
 import { produce } from "immer";
-import type { PsyAnswerSheetProps } from "src/types/psyAnswerSheet";
+import type { PsyAnswerSheetType } from "src/types/psyAnswerSheet";
 import type { RootState } from "src/store";
 
 import { AnyAction } from "redux";
@@ -74,9 +74,8 @@ const fetchJobDataEduError = (errorMessage: string) => ({
 });
 
 //
-const fetchJobDataMajorRequest = (data: any[][]) => ({
-    type: FETCH_JOBDATA_MAJOR_REQUEST,
-    payload: { data }
+const fetchJobDataMajorRequest = () => ({
+    type: FETCH_JOBDATA_MAJOR_REQUEST
 });
 const fetchJobDataMajorSuccess = (data: any[]) => ({
     type: FETCH_JOBDATA_MAJOR_SUCCESS,
@@ -93,7 +92,7 @@ const fetchJobDataMajorError = (errorMessage: string) => ({
  */
 export const fetchScoreData = (
     userData: PsyUserInfoProps,
-    answerData: PsyAnswerSheetProps
+    answerData: PsyAnswerSheetType
 ): ThunkAction<void, RootState, unknown, AnyAction> => {
     return dispatch => {
         dispatch({ type: FETCH_SCORE_REQUEST });
@@ -146,7 +145,7 @@ export const fetchJobDataByEducation = (
         dispatch({ type: FETCH_JOBDATA_EDU_REQUEST });
 
         axios
-            .get(
+            .post(
                 `${process.env.REACT_APP_CAREER_PSY_MAJOR_JOBS_ENDPOINT}/majors?no1=${no1}&no2=${no2}`
             )
             .then(res => {
@@ -173,8 +172,8 @@ export const fetchJobDataByMajor = (
         dispatch({ type: FETCH_JOBDATA_MAJOR_REQUEST });
 
         axios
-            .get(
-                `${process.env.REACT_APP_CAREER_PSY_MAJOR_JOBS_ENDPOINT}/majors?no1=${no1}&no2=${no2}`
+            .post(
+                `${process.env.REACT_APP_CAREER_PSY_MAJOR_JOBS_ENDPOINT}/jobs?no1=${no1}&no2=${no2}`
             )
             .then(res => {
                 dispatch({ type: FETCH_JOBDATA_MAJOR_SUCCESS, payload: { data: res.data } });
