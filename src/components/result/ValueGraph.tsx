@@ -1,5 +1,5 @@
 import React from "react";
-import  {useAppSelector} from "src/hooks/useAppSelector";
+import { useAppSelector } from "src/hooks/useAppSelector";
 
 import "./ValueGraph.css";
 
@@ -10,7 +10,7 @@ const ValueGraph: React.FC = () => {
     const cols = (
         <tr>
             {score_data.map((score, index) => (
-                <th scope="col" key={index}>
+                <th scope="col" key={`col${index}`}>
                     {score.jobValue}
                 </th>
             ))}
@@ -22,7 +22,7 @@ const ValueGraph: React.FC = () => {
             {score_data.map((score, index) => (
                 <td
                     id={`bar${index}`}
-                    key={index}
+                    key={`bar${index}`}
                     style={{
                         height: `${Number(score.score) === 0 ? 18 : 50 * Number(score.score)}px`
                     }}
