@@ -11,6 +11,7 @@ import ValueGraph from "./ValueGraph";
 import { fetchJobDataByEducation, fetchJobDataByMajor } from "src/modules/psyResult";
 
 import PreviewPage from "./PreviewPage";
+import { useAppDispatch } from "src/hooks/useAppDispatch";
 
 const ResultPage: React.FC = () => {
     const [resultView, setResultView] = React.useState<"result" | "preview">("preview");
@@ -35,6 +36,7 @@ const ResultPage: React.FC = () => {
 
 /* 검사 결과 페이지 */
 const ResultPaper: React.FC = () => {
+    const dispatch = useAppDispatch();
     const { name, gender, startDtm } = useAppSelector(state => state.psyUserInfo);
     const { loading, score_data, jobdata_edu, jobdata_major } = useAppSelector(
         state => state.psyResult
@@ -42,8 +44,9 @@ const ResultPaper: React.FC = () => {
     const { no1, no2 } = useAppSelector(state => state.psyResult);
 
     React.useEffect(() => {
-        fetchJobDataByMajor(no1, no2);
-        fetchJobDataByEducation(no1, no2);
+        dispatch(fetchJobDataByMajor(no1, no2));
+        dispatch(fetchJobDataByEducation(no1, no2));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [no1, no2]);
 
     if (
