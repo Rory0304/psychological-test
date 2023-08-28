@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Colors, Typography } from "../../styles";
+import { Colors, Typography, Breakpoints } from "../../styles";
 
 export const MainWrapper = styled.div<{ center: boolean }>`
     width: 100%;
@@ -29,13 +29,19 @@ export const IntroWrapper = styled.div`
 `;
 
 export const ExamineWrapper = styled.div`
-    width: 70%;
+    width: 100%;
+    max-width: 1024px;
     margin: 0 auto;
+    padding: 0 1.5rem;
+
+    @media ${Breakpoints.tabletSmaller} {
+        max-width: 768px;
+    }
 
     & > header {
         font-size: ${Typography.big};
         position: relative;
-        margin: 20px 0;
+        margin: 1.5rem 0;
 
         & > h2 {
             padding-bottom: 15px;
