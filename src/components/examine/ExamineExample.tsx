@@ -7,7 +7,7 @@ import { Typography, Colors } from "src/styles";
 import useForm from "src/hooks/useForm";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import { ExamineWrapper, MainWrapper } from "../common/Wrapper";
-import QuestionList from "./QuestionList";
+import ExamineQuestionItem from "./ExamineQuestionItem";
 import useProgress from "src/hooks/useProgress";
 
 interface FormDataProps {
@@ -19,17 +19,17 @@ const ExamineExample: React.FC = () => {
         question: "두 가치 중에 자기에게 더 중요한 가치를 선택하세요.",
         answer01: "능력 발휘",
         answer02: "자율성",
-        answerScore01: 1,
-        answerScore02: 2
+        answerScore01: "1",
+        answerScore02: "2"
     };
     const qitemNo = 0;
-    const { formData, handleChange } = useForm<keyof FormDataProps, number>({
+    const { formData, handleChange } = useForm<keyof FormDataProps, string>({
         init: {
-            q0: 0
+            q0: "0"
         }
     });
 
-    const { progress } = useProgress({ total: 1, count: formData.q0 === 0 ? 0 : 1 });
+    const { progress } = useProgress({ total: 1, count: formData.q0 === "0" ? 0 : 1 });
 
     return (
         <MainWrapper center={true}>
@@ -48,17 +48,17 @@ const ExamineExample: React.FC = () => {
                             확인해보세요.
                         </p>
                     </ExamineManual>
-                    <QuestionList
+                    <ExamineQuestionItem
                         questionNumber={qitemNo}
                         question={question}
-                        answeredValue={`${formData.q0}`}
-                        onInputChange={(value: string) => handleChange("q0", parseInt(value))}
+                        answeredValue={formData.q0.toString()}
+                        onInputChange={(value: string) => handleChange("q0", value)}
                     />
                     <>
-                        <NextButtonLabel htmlFor="다음 버튼" hidden={formData.q0 !== 0}>
+                        <NextButtonLabel htmlFor="다음 버튼" hidden={formData.q0 !== "0"}>
                             모든 문항에 응답해야 합니다.
                         </NextButtonLabel>
-                        {formData.q0 !== 0 ? (
+                        {formData.q0 !== "0" ? (
                             <Link to="/examine">
                                 <NextButton id="nextButton" disabled={false}>
                                     검사 시작
