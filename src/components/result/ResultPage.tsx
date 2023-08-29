@@ -8,7 +8,7 @@ import { Typography, Colors } from "src/styles";
 import { UserInfoTable, EduTable, MajorTable } from "./Table";
 import ValueGraph from "./ValueGraph";
 
-import { fetchJobDataByEducation, fetchJobDataByMajor } from "src/modules/psyResult";
+import { fetchJobDataByEducation, fetchJobDataByMajor } from "src/features/psyResultSlice";
 
 import PreviewPage from "./PreviewPage";
 import { useAppDispatch } from "src/hooks/useAppDispatch";
@@ -44,8 +44,8 @@ const ResultPaper: React.FC = () => {
     const { no1, no2 } = useAppSelector(state => state.psyResult);
 
     React.useEffect(() => {
-        dispatch(fetchJobDataByMajor(no1, no2));
-        dispatch(fetchJobDataByEducation(no1, no2));
+        dispatch(fetchJobDataByMajor({ no1, no2 }));
+        dispatch(fetchJobDataByEducation({ no1, no2 }));
     }, [no1, no2]);
 
     if (

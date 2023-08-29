@@ -1,7 +1,7 @@
 import React from "react";
 
 import { FormCheck } from "react-bootstrap";
-import { setUserAnswer } from "src/modules/psyAnswerSheet";
+import { setUserAnswer } from "src/features/psyAnswerSheetSlice";
 import styled from "styled-components";
 import { Colors, Typography } from "src/styles";
 import { useAppDispatch } from "src/hooks/useAppDispatch";

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Colors } from "src/styles";
 
 import { useAppSelector } from "src/hooks/useAppSelector";
-import { fetchScoreData } from "src/modules/psyResult";
+import { fetchScoreData } from "src/features/psyResultSlice";
 import { MainWrapper, IntroWrapper } from "src/components/common/Wrapper";
 import { useAppDispatch } from "src/hooks/useAppDispatch";
 
@@ -19,7 +19,7 @@ const PreviewPage: React.FC<PreviewPageProps> = ({ onResultPageShow }) => {
 
     React.useEffect(() => {
         if (answerData && userData) {
-            return dispatch(fetchScoreData(userData, answerData));
+            dispatch(fetchScoreData({ userData, answerData }));
         }
     }, [answerData, userData]);
 

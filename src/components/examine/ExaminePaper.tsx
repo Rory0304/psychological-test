@@ -2,7 +2,7 @@ import React from "react";
 import { useAppSelector } from "src/hooks/useAppSelector";
 import { useAppDispatch } from "src/hooks/useAppDispatch";
 import ProgressBar from "react-bootstrap/ProgressBar";
-import { fetchQuestionData, handleNextPage, handlePrevPage } from "../../modules/psyQuestion";
+import { fetchQuestionData, handleNextPage, handlePrevPage } from "src/features/psyQuestionSlice";
 import ExamineQuestionItem from "./ExamineQuestionItem";
 import Pagination from "./Pagination";
 import { LoadingPage } from "../common/LoadingPage";
@@ -10,7 +10,7 @@ import { ExamineWrapper, MainWrapper } from "../common/Wrapper";
 
 import "./ExaminePaper.css";
 import useProgress from "src/hooks/useProgress";
-import { setAnswerSheet } from "src/modules/psyAnswerSheet";
+import { setAnswerSheet } from "src/features/psyAnswerSheetSlice";
 
 function ExaminePaper() {
     const dispatch = useAppDispatch();

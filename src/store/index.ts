@@ -1,8 +1,18 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import rootReducer from "src/modules";
+import psyAnswerSheetSlice from "src/features/psyAnswerSheetSlice";
+import psyQuestionSlice from "src/features/psyQuestionSlice";
+import psyResultSlice from "src/features/psyResultSlice";
+import psyUserInfoSlice from "src/features/psyUserInfoSlice";
 
-export const store = configureStore({ reducer: rootReducer });
+export const store = configureStore({
+    reducer: {
+        psyAnswerSheet: psyAnswerSheetSlice,
+        psyQuestion: psyQuestionSlice,
+        psyResult: psyResultSlice,
+        psyUserInfo: psyUserInfoSlice
+    }
+});
 
-export type RootState = ReturnType<typeof rootReducer>;
+export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

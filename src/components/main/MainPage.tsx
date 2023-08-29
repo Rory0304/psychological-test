@@ -8,9 +8,9 @@ import { Colors, Typography } from "src/styles";
 import useForm from "src/hooks/useForm";
 import { useAppDispatch } from "src/hooks/useAppDispatch";
 
-import { setUserInfo, resetUserInfo } from "src/modules/psyUserInfo";
-import { resetUserAnswer } from "src/modules/psyAnswerSheet";
-import { resetPage } from "src/modules/psyQuestion";
+import { setUserInfo, resetUserInfo } from "src/features/psyUserInfoSlice";
+import { resetUserAnswer } from "src/features/psyAnswerSheetSlice";
+import { resetPage } from "src/features/psyQuestionSlice";
 
 import type { GenderType } from "src/types/psyUserInfo";
 
