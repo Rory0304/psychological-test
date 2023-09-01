@@ -1,14 +1,16 @@
-import { useSelector } from "react-redux";
+import React from "react";
+import { useAppSelector } from "src/hooks/useAppSelector";
+
 import "./ValueGraph.css";
 
-function ValueGraph() {
-    const { name } = useSelector(state => state.qaData.answer_sheet);
-    const { score_data, bestTwo, worstTwo } = useSelector(state => state.resultData);
+const ValueGraph: React.FC = () => {
+    const { name } = useAppSelector(state => state.psyUserInfo);
+    const { score_data, bestTwo, worstTwo } = useAppSelector(state => state.psyResult);
 
     const cols = (
         <tr>
             {score_data.map((score, index) => (
-                <th scope="col" key={index}>
+                <th scope="col" key={`col${index}`}>
                     {score.jobValue}
                 </th>
             ))}
@@ -20,8 +22,10 @@ function ValueGraph() {
             {score_data.map((score, index) => (
                 <td
                     id={`bar${index}`}
-                    key={index}
-                    style={{ height: `${score.score === 0 ? 18 : 50 * score.score}px` }}
+                    key={`bar${index}`}
+                    style={{
+                        height: `${Number(score.score) === 0 ? 18 : 50 * Number(score.score)}px`
+                    }}
                 >
                     <span>{score.score}</span>
                 </td>
@@ -52,6 +56,6 @@ function ValueGraph() {
             <div className="ticks">{ticks}</div>
         </div>
     );
-}
+};
 
 export default ValueGraph;

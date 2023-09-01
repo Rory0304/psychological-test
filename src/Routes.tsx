@@ -1,13 +1,15 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import MainPage from "./components/main/MainPage";
 import ResultPage from "./components/result/ResultPage";
 import ExamineExample from "./components/examine/ExamineExample";
 import ExaminePaper from "./components/examine/ExaminePaper";
 
+import type { RootState } from "./store";
+import { useAppSelector } from "./hooks/useAppSelector";
+
 export default function Routes() {
-    const { name, gender } = useSelector(state => state.qaData.answer_sheet);
+    const { name, gender } = useAppSelector((state: RootState) => state.psyUserInfo);
 
     return (
         <BrowserRouter>
