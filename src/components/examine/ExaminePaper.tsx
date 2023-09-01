@@ -2,7 +2,6 @@ import React from "react";
 import { useAppSelector } from "src/hooks/useAppSelector";
 import { useAppDispatch } from "src/hooks/useAppDispatch";
 import ProgressBar from "react-bootstrap/ProgressBar";
-import { fetchQuestionData, handleNextPage, handlePrevPage } from "../../modules/psyQuestion";
 import ExamineQuestionItem from "./ExamineQuestionItem";
 import Pagination from "./Pagination";
 import { LoadingPage } from "../common/LoadingPage";
@@ -11,31 +10,78 @@ import { ExamineWrapper, MainWrapper } from "../common/Wrapper";
 import "./ExaminePaper.css";
 import useProgress from "src/hooks/useProgress";
 import { setAnswerSheet } from "src/modules/psyAnswerSheet";
+import type { APIStatus } from "src/types/apiStatus";
+import type { QuestionDataProps } from "src/types/psyQuestion";
+import apiFetch from "src/utils/apiFetch";
 
-function ExaminePaper() {
+const QUESTION_PAGE_COUNT = 5;
+
+const ExaminePaper: React.FC = () => {
     const dispatch = useAppDispatch();
 
-    const loading = useAppSelector(state => state.psyQuestion.loading);
     const { answer_sheet } = useAppSelector(state => state.psyAnswerSheet);
-    const { offset, count } = useAppSelector(state => state.psyQuestion.pagination_data);
-    const questionData = useAppSelector(state => state.psyQuestion.question_data);
 
+    //
+    //
+    //
+    const [status, setStatus] = React.useState<APIStatus>("idle");
+    const [questionData, setQuestionData] = React.useState<QuestionDataProps[]>([]);
+    const [offset, setOffset] = React.useState(0);
+
+    //
+    //
+    //
     const { progress } = useProgress({
         count: answer_sheet.filter(Boolean).length,
         total: questionData.length
     });
 
+    //
+    //
+    //
+    const handlePageChange = React.useCallback(
+        (type: "next" | "prev") => {
+            if (type === "next") {
+                if (offset !== questionData.length - (questionData.length % QUESTION_PAGE_COUNT)) {
+                    setOffset(current => current + QUESTION_PAGE_COUNT);
+                }
+            }
+
+            if (type === "prev") {
+                if (offset !== 0) {
+                    setOffset(current => current - QUESTION_PAGE_COUNT);
+                }
+            }
+        },
+        [offset, questionData]
+    );
+
     React.useEffect(() => {
-        if (questionData.length <= 0) {
-            dispatch(fetchQuestionData());
-        }
-    }, [questionData]);
+        const fetchQuestionData = () => {
+            setStatus("pending");
+            apiFetch<{ RESULT: QuestionDataProps[] }>(
+                `${process.env.REACT_APP_CAREER_PSY_QUESTION_ENDPOINT}?apikey=${process.env.REACT_APP_API_KEY}&q=6`
+            )
+                .then(res => {
+                    setQuestionData(res.RESULT);
+                    setStatus("success");
+                })
+                .catch(error => {
+                    console.error(error);
+                    setStatus("failed");
+                });
+        };
+
+        fetchQuestionData();
+
+        return () => setStatus("idle");
+    }, []);
 
     React.useEffect(() => {
         dispatch(setAnswerSheet({ total: questionData?.length ?? 0 }));
     }, [questionData]);
 
-    if (loading && questionData.length === 0) {
+    if (status === "pending" && questionData.length === 0) {
         return (
             <LoadingPage>
                 <p>Loading</p>
@@ -53,7 +99,7 @@ function ExaminePaper() {
                 </header>
                 <main role="main">
                     <ol>
-                        {questionData.slice(offset, offset + count).map(question => (
+                        {questionData.slice(offset, offset + QUESTION_PAGE_COUNT).map(question => (
                             <li key={question.qitemNo}>
                                 <ExamineQuestionItem
                                     question={question}
@@ -67,19 +113,23 @@ function ExaminePaper() {
                     </ol>
                     <Pagination
                         total={questionData.length}
-                        count={count}
+                        count={QUESTION_PAGE_COUNT}
                         offset={offset}
-                        questionCount={questionData.slice(offset, offset + count).length}
-                        answerCount={
-                            answer_sheet?.slice(offset, offset + count).filter(Boolean).length
+                        questionCount={
+                            questionData.slice(offset, offset + QUESTION_PAGE_COUNT).length
                         }
-                        onNextClick={() => dispatch(handleNextPage())}
-                        onPrevClick={() => dispatch(handlePrevPage())}
+                        answerCount={
+                            answer_sheet
+                                ?.slice(offset, offset + QUESTION_PAGE_COUNT)
+                                .filter(Boolean).length
+                        }
+                        onNextClick={() => handlePageChange("next")}
+                        onPrevClick={() => handlePageChange("prev")}
                     />
                 </main>
             </ExamineWrapper>
         </MainWrapper>
     );
-}
+};
 
 export default ExaminePaper;
