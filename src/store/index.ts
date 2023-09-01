@@ -1,14 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import psyAnswerSheetSlice from "src/features/psyAnswerSheetSlice";
-import psyQuestionSlice from "src/features/psyQuestionSlice";
 import psyResultSlice from "src/features/psyResultSlice";
 import psyUserInfoSlice from "src/features/psyUserInfoSlice";
 
 export const store = configureStore({
     reducer: {
         psyAnswerSheet: psyAnswerSheetSlice,
-        psyQuestion: psyQuestionSlice,
         psyResult: psyResultSlice,
         psyUserInfo: psyUserInfoSlice
     }
