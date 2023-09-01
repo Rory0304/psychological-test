@@ -1,6 +1,4 @@
-[리팩토링 일지](https://languid-chestnut-7b2.notion.site/2-ea8d3b1951cf4a798cfdad0683cc87ac)
-
-### 커밋 유형
+### Commit Prefix
 
 `FEAT`  새로운 기능의 추가  
 `FIX`  버그 수정  
