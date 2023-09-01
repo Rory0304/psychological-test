@@ -1,6 +1,6 @@
 import { PsyResultProps } from "../types/psyResult";
 import { JOB_VALUES, EDU_INFO_LIST, MAJOR_INFO_LIST } from "../constants/psyResult";
-import axios from "axios";
+import apiFetch from "src/utils/apiFetch";
 import type { PsyAnswerSheetType } from "src/types/psyAnswerSheet";
 
 import { PsyUserInfoProps } from "src/types/psyUserInfo";
@@ -46,34 +46,40 @@ const FETCH_JOBDATA_MAJOR_REQUEST = "psy_result/FETCH_JOBDATA_MAJOR_REQUEST" as 
  */
 export const fetchScoreData = createAsyncThunk(
     FETCH_SCORE_REQUEST,
-    // payloadCreator callback: 비동기 로직의 결과를 포함하고 있는 프로미스를 반환하는 비동기 함수
     async (
         { userData, answerData }: { userData: PsyUserInfoProps; answerData: PsyAnswerSheetType },
         thunkAPI
     ) => {
-        return await axios
-            .post(`${process.env.REACT_APP_CAREER_PSY_REPORT_TEST_ENDPOINT}`, {
-                apikey: process.env.REACT_APP_API_KEY,
-                qestrnSeq: answerData.qestrnSeq,
-                trgetSe: answerData.trgetSe,
-                name: userData.name,
-                gender: userData.gender === "male" ? "100323" : "100324",
-                grade: "",
-                email: "",
-                startDtm: userData.startDtm,
-                answers: answerData.answer_sheet
-                    .map(data => {
-                        return `B${data.qitemNo}=${data.answer}`;
-                    })
-                    .join(" ")
+        return await apiFetch<{ RESULT: { url: string } }>(
+            `${process.env.REACT_APP_CAREER_PSY_REPORT_TEST_ENDPOINT}`,
+            {
+                method: "POST",
+                body: {
+                    apikey: process.env.REACT_APP_API_KEY,
+                    qestrnSeq: answerData.qestrnSeq,
+                    trgetSe: answerData.trgetSe,
+                    name: userData.name,
+                    gender: userData.gender === "male" ? "100323" : "100324",
+                    grade: "",
+                    email: "",
+                    startDtm: userData.startDtm,
+                    answers: answerData.answer_sheet
+                        .map(data => {
+                            return `B${data.qitemNo}=${data.answer}`;
+                        })
+                        .join(" ")
+                }
+            }
+        )
+            .then(res => {
+                const seq = res.RESULT.url.split("seq=")[1];
+                return apiFetch<{ result: { wonScore: string } }>(
+                    `${process.env.REACT_APP_CAREER_PSY_REPORT_ENDPOINT}?seq=${seq}`
+                ).then(res => ({ data: res.result.wonScore.split(" ") }));
             })
-            .then(async res => {
-                const seq = res.data.RESULT.url.split("seq=")[1];
-                return await axios
-                    .get(`${process.env.REACT_APP_CAREER_PSY_REPORT_ENDPOINT}?seq=${seq}`)
-                    .then(res => ({ data: res.data.result.wonScore.split(" ") }));
-            })
-            .catch(error => thunkAPI.rejectWithValue({ errorMessage: error.message }));
+            .catch(error => {
+                return thunkAPI.rejectWithValue({ errorMessage: error.message });
+            });
     }
 );
 
@@ -84,12 +90,16 @@ export const fetchScoreData = createAsyncThunk(
 export const fetchJobDataByEducation = createAsyncThunk(
     FETCH_JOBDATA_EDU_REQUEST,
     async ({ no1, no2 }: { no1: string; no2: string }, thunkAPI) => {
-        return await axios
-            .post(
-                `${process.env.REACT_APP_CAREER_PSY_MAJOR_JOBS_ENDPOINT}/majors?no1=${no1}&no2=${no2}`
-            )
-            .then(res => ({ data: res.data }))
-            .catch(error => thunkAPI.rejectWithValue({ errorMessage: error.message }));
+        return await apiFetch<[number, string, number][]>(
+            `${process.env.REACT_APP_CAREER_PSY_MAJOR_JOBS_ENDPOINT}/majors?no1=${no1}&no2=${no2}`,
+            {
+                method: "POST"
+            }
+        )
+            .then(res => ({ data: res }))
+            .catch(error => {
+                return thunkAPI.rejectWithValue({ errorMessage: error.message });
+            });
     }
 );
 
@@ -99,13 +109,14 @@ export const fetchJobDataByEducation = createAsyncThunk(
  */
 export const fetchJobDataByMajor = createAsyncThunk(
     FETCH_JOBDATA_MAJOR_REQUEST,
-    // payloadCreator callback: 비동기 로직의 결과를 포함하고 있는 프로미스를 반환하는 비동기 함수
     async ({ no1, no2 }: { no1: string; no2: string }, thunkAPI) => {
-        return await axios
-            .post(
-                `${process.env.REACT_APP_CAREER_PSY_MAJOR_JOBS_ENDPOINT}/jobs?no1=${no1}&no2=${no2}`
-            )
-            .then(res => ({ data: res.data }))
+        return await apiFetch<[number, string, number][]>(
+            `${process.env.REACT_APP_CAREER_PSY_MAJOR_JOBS_ENDPOINT}/jobs?no1=${no1}&no2=${no2}`,
+            {
+                method: "POST"
+            }
+        )
+            .then(res => ({ data: res }))
             .catch(err => thunkAPI.rejectWithValue({ errorMessage: err.message }));
     }
 );
