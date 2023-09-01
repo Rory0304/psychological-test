@@ -1,6 +1,5 @@
 import { PsyResultProps } from "../types/psyResult";
 import { JOB_VALUES, EDU_INFO_LIST, MAJOR_INFO_LIST } from "../constants/psyResult";
-import axios from "axios";
 import { produce } from "immer";
 import type { PsyAnswerSheetType } from "src/types/psyAnswerSheet";
 import type { RootState } from "src/store";
@@ -8,6 +7,7 @@ import type { RootState } from "src/store";
 import { AnyAction } from "redux";
 import { ThunkAction } from "redux-thunk";
 import { PsyUserInfoProps } from "src/types/psyUserInfo";
+import apiFetch from "src/utils/apiFetch";
 
 //
 // Initial Data structure
@@ -97,32 +97,37 @@ export const fetchScoreData = (
     return dispatch => {
         dispatch({ type: FETCH_SCORE_REQUEST });
 
-        axios
-            .post(`${process.env.REACT_APP_CAREER_PSY_REPORT_TEST_ENDPOINT}`, {
-                apikey: process.env.REACT_APP_API_KEY,
-                qestrnSeq: answerData.qestrnSeq,
-                trgetSe: answerData.trgetSe,
-                name: userData.name,
-                gender: userData.gender === "male" ? "100323" : "100324",
-                grade: "",
-                email: "",
-                startDtm: userData.startDtm,
-                answers: answerData.answer_sheet
-                    .map(data => {
-                        return `B${data.qitemNo}=${data.answer}`;
-                    })
-                    .join(" ")
-            })
-            .then(async res => {
-                const seq = res.data.RESULT.url.split("seq=")[1];
-                await axios
-                    .get(`${process.env.REACT_APP_CAREER_PSY_REPORT_ENDPOINT}?seq=${seq}`)
-                    .then(res =>
-                        dispatch({
-                            type: FETCH_SCORE_SUCCESS,
-                            payload: { data: res.data.result.wonScore.split(" ") }
+        apiFetch<{ RESULT: { url: string } }>(
+            `${process.env.REACT_APP_CAREER_PSY_REPORT_TEST_ENDPOINT}`,
+            {
+                method: "POST",
+                body: {
+                    apikey: process.env.REACT_APP_API_KEY,
+                    qestrnSeq: answerData.qestrnSeq,
+                    trgetSe: answerData.trgetSe,
+                    name: userData.name,
+                    gender: userData.gender === "male" ? "100323" : "100324",
+                    grade: "",
+                    email: "",
+                    startDtm: userData.startDtm,
+                    answers: answerData.answer_sheet
+                        .map(data => {
+                            return `B${data.qitemNo}=${data.answer}`;
                         })
-                    );
+                        .join(" ")
+                }
+            }
+        )
+            .then(res => {
+                const seq = res.RESULT.url.split("seq=")[1];
+                apiFetch<{ result: { wonScore: string } }>(
+                    `${process.env.REACT_APP_CAREER_PSY_REPORT_ENDPOINT}?seq=${seq}`
+                ).then(res =>
+                    dispatch({
+                        type: FETCH_SCORE_SUCCESS,
+                        payload: { data: res.result.wonScore.split(" ") }
+                    })
+                );
             })
             .catch(error => {
                 dispatch({
@@ -144,12 +149,14 @@ export const fetchJobDataByEducation = (
     return dispatch => {
         dispatch({ type: FETCH_JOBDATA_EDU_REQUEST });
 
-        axios
-            .post(
-                `${process.env.REACT_APP_CAREER_PSY_MAJOR_JOBS_ENDPOINT}/majors?no1=${no1}&no2=${no2}`
-            )
+        apiFetch<[number, string, number][]>(
+            `${process.env.REACT_APP_CAREER_PSY_MAJOR_JOBS_ENDPOINT}/majors?no1=${no1}&no2=${no2}`,
+            {
+                method: "POST"
+            }
+        )
             .then(res => {
-                dispatch({ type: FETCH_JOBDATA_EDU_SUCCESS, payload: { data: res.data } });
+                dispatch({ type: FETCH_JOBDATA_EDU_SUCCESS, payload: { data: res } });
             })
             .catch(error => {
                 dispatch({
@@ -171,12 +178,14 @@ export const fetchJobDataByMajor = (
     return dispatch => {
         dispatch({ type: FETCH_JOBDATA_MAJOR_REQUEST });
 
-        axios
-            .post(
-                `${process.env.REACT_APP_CAREER_PSY_MAJOR_JOBS_ENDPOINT}/jobs?no1=${no1}&no2=${no2}`
-            )
+        apiFetch<[number, string, number][]>(
+            `${process.env.REACT_APP_CAREER_PSY_MAJOR_JOBS_ENDPOINT}/jobs?no1=${no1}&no2=${no2}`,
+            {
+                method: "POST"
+            }
+        )
             .then(res => {
-                dispatch({ type: FETCH_JOBDATA_MAJOR_SUCCESS, payload: { data: res.data } });
+                dispatch({ type: FETCH_JOBDATA_MAJOR_SUCCESS, payload: { data: res } });
             })
             .catch(error => {
                 dispatch({
