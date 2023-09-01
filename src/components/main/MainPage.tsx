@@ -10,7 +10,6 @@ import { useAppDispatch } from "src/hooks/useAppDispatch";
 
 import { setUserInfo, resetUserInfo } from "src/modules/psyUserInfo";
 import { resetUserAnswer } from "src/modules/psyAnswerSheet";
-import { resetPage } from "src/modules/psyQuestion";
 
 import type { GenderType } from "src/types/psyUserInfo";
 
@@ -39,7 +38,6 @@ const MainPage: React.FC = () => {
     React.useEffect(() => {
         dispatch(resetUserInfo());
         dispatch(resetUserAnswer());
-        dispatch(resetPage());
     }, []);
 
     const handleSubmit = (e: React.FormEvent) => {
