@@ -1,6 +1,5 @@
 import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { PsyQuestionProps, QuestionDataProps } from "../types/psyQuestion";
-import axios from "axios";
 
 //
 // Initial Data structure
