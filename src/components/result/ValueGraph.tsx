@@ -9,28 +9,31 @@ const ValueGraph: React.FC = () => {
 
     const cols = (
         <tr>
-            {score_data.map((score, index) => (
-                <th scope="col" key={`col${index}`}>
-                    {score.jobValue}
-                </th>
-            ))}
+            <th scope="col" className="visually-hidden">
+                직업 가치관
+            </th>
+            <th scope="col" className="visually-hidden">
+                점수
+            </th>
         </tr>
     );
 
     const rows = (
-        <tr>
-            {score_data.map((score, index) => (
-                <td
-                    id={`bar${index}`}
-                    key={`bar${index}`}
-                    style={{
-                        height: `${Number(score.score) === 0 ? 18 : 50 * Number(score.score)}px`
-                    }}
-                >
-                    <span>{score.score}</span>
-                </td>
+        <>
+            {score_data.map((data, index) => (
+                <tr key={`score-data-${index}`}>
+                    <td>{data.jobValue}</td>
+                    <td
+                        id={`bar${index}`}
+                        style={{
+                            height: `${Number(data.score) === 0 ? 18 : 50 * Number(data.score)}px`
+                        }}
+                    >
+                        {data.score}
+                    </td>
+                </tr>
             ))}
-        </tr>
+        </>
     );
 
     const ticks = [];

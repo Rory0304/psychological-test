@@ -30,27 +30,36 @@
     overflow: hidden;
 }
 
-.value-table tbody tr {
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
+.value-table tbody {
     position: absolute;
     bottom: 0;
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+}
+
+.value-table tbody tr {
+    width: calc(100% / 7);
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
     flex-direction: row;
     align-content: center;
     align-items: flex-end;
-    column-gap: 19px;
 }
 
-.value-table tbody tr td {
+.value-table tbody tr td:nth-of-type(1) {
+    position: absolute;
+    bottom: -32px;
+    width: 100%;
+    text-align: center;
+}
+
+.value-table tbody tr td:nth-of-type(2) {
+    width: 100%;
     text-align: center;
     z-index: 1;
     background-color: #ffbf7c;
-}
-
-.value-table thead th,
-.value-table tbody td {
-    width: calc(100% / 7);
 }
 
 .ticks .tick {
