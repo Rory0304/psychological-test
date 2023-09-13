@@ -1,5 +1,6 @@
 import { produce } from "immer";
 import { PsyAnswerSheetType, PsyAnswerSheetItemType } from "../types/psyAnswerSheet";
+import { ActionType, createAction, createReducer } from "typesafe-actions";
 
 //
 //
@@ -17,53 +18,40 @@ const SET_ANSWER_SHEET = "psy_answer/SET_ANSWER_SHEET" as const;
 const SET_USER_ANSWER = "psy_answer/SET_USER_ANSWER" as const;
 const RESET_USER_ANSWER = "psy_answer/RESET_USER_ANSWER" as const;
 
-export const setAnswerSheet = (payload: { total: number }) => ({
-    type: SET_ANSWER_SHEET,
-    payload: payload
+export const setAnswerSheet = createAction(SET_ANSWER_SHEET, ({ total }: { total: number }) => ({
+    total
+}))();
+export const setUserAnswer = createAction(
+    SET_USER_ANSWER,
+    ({ qitemNo, answer }: { qitemNo: number; answer: string }) => ({
+        qitemNo,
+        answer
+    })
+)();
+export const resetUserAnswer = createAction(RESET_USER_ANSWER)();
+
+const actions = { setAnswerSheet, setUserAnswer, resetUserAnswer };
+export type PsyAnswerSheetActionTypes = ActionType<typeof actions>;
+
+//
+//
+//
+const reducer = createReducer<PsyAnswerSheetType, PsyAnswerSheetActionTypes>(INITIAL_STATE, {
+    [SET_ANSWER_SHEET]: (state, action) => {
+        const total = action.payload.total;
+        return {
+            ...state,
+            answer_sheet: Array(total)
+        };
+    },
+    [SET_USER_ANSWER]: (state, action) => {
+        const { qitemNo, answer } = action.payload;
+
+        return produce(state, draft => {
+            draft.answer_sheet[qitemNo - 1] = { qitemNo, answer };
+        });
+    },
+    [RESET_USER_ANSWER]: () => INITIAL_STATE
 });
-export const setUserAnswer = (payload: { qitemNo: number; answer: string }) => ({
-    type: SET_USER_ANSWER,
-    payload: payload
-});
-
-export const resetUserAnswer = () => ({ type: RESET_USER_ANSWER });
-
-//
-//
-//
-type PsyAnswerSheetActionTypes =
-    | ReturnType<typeof setAnswerSheet>
-    | ReturnType<typeof setUserAnswer>
-    | ReturnType<typeof resetUserAnswer>;
-
-//
-//
-//
-const reducer = (state: PsyAnswerSheetType = INITIAL_STATE, action: PsyAnswerSheetActionTypes) => {
-    switch (action.type) {
-        case SET_ANSWER_SHEET: {
-            const total = action.payload.total;
-            return {
-                ...state,
-                answer_sheet: Array(total)
-            };
-        }
-
-        case SET_USER_ANSWER: {
-            const { qitemNo, answer } = action.payload;
-
-            return produce(state, draft => {
-                draft.answer_sheet[qitemNo - 1] = { qitemNo, answer };
-            });
-        }
-
-        case RESET_USER_ANSWER:{
-            return INITIAL_STATE;
-        }
-
-        default:
-            return state;
-    }
-};
 
 export default reducer;
