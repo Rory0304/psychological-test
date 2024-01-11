@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 
 import ExamineExample from './components/examine/ExamineExample';
@@ -15,22 +14,20 @@ export default function Routes() {
 
   return (
     <BrowserRouter>
-      <>
-        <Switch>
-          <Route exact path="/">
-            <MainPage />
-          </Route>
-          <Route exact path="/examine-example">
-            {name && gender ? <ExamineExample /> : <Redirect to="/" />}
-          </Route>
-          <Route exact path="/examine">
-            {name && gender ? <ExaminePaper /> : <Redirect to="/" />}
-          </Route>
-          <Route exact path="/result-view">
-            {name && gender ? <ResultPage /> : <Redirect to="/" />}
-          </Route>
-        </Switch>
-      </>
+      <Switch>
+        <Route exact path="/">
+          <MainPage />
+        </Route>
+        <Route exact path="/examine-example">
+          {name && gender ? <ExamineExample /> : <Redirect to="/" />}
+        </Route>
+        <Route exact path="/examine">
+          {name && gender ? <ExaminePaper /> : <Redirect to="/" />}
+        </Route>
+        <Route exact path="/result-view">
+          {name && gender ? <ResultPage /> : <Redirect to="/" />}
+        </Route>
+      </Switch>
     </BrowserRouter>
   );
 }
