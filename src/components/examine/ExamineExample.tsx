@@ -41,46 +41,54 @@ const ExamineExample: React.FC = () => {
           <h2>
             검사 예시 <span>{progress}%</span>
           </h2>
-          <ProgressBar now={progress} label={`${progress}%`} visuallyHidden />
+          <ProgressBar
+            visuallyHidden
+            variant="progress-bar-green"
+            now={progress}
+            label={`${progress}%`}
+          />
         </header>
         <main role="main">
-          <ExamineManual>
+          <StyledExamineManual>
             <p>
               직업과 관련된 두 개의 가치 중에서 자기에게 더 중요한 가치에
               표시하세요.
               <br /> 가치의 뜻을 잘 모르겠다면 문항 아래에 있는 가치의 설명을
               확인해보세요.
             </p>
-          </ExamineManual>
+          </StyledExamineManual>
           <ExamineQuestionItem
             questionNumber={qitemNo}
             question={question}
             answeredValue={formData.q0.toString()}
             onInputChange={(value: string) => handleChange('q0', value)}
           />
-          <>
-            <NextButtonLabel htmlFor="다음 버튼" hidden={formData.q0 !== '0'}>
+          <div>
+            <StyledNextButtonLabel
+              htmlFor="다음 버튼"
+              hidden={formData.q0 !== '0'}
+            >
               모든 문항에 응답해야 합니다.
-            </NextButtonLabel>
+            </StyledNextButtonLabel>
             {formData.q0 !== '0' ? (
               <Link to="/examine">
-                <NextButton id="nextButton" disabled={false}>
+                <StyledNextButton id="nextButton" disabled={false}>
                   검사 시작
-                </NextButton>
+                </StyledNextButton>
               </Link>
             ) : (
-              <NextButton id="nextButton" disabled={true}>
+              <StyledNextButton id="nextButton" disabled={true}>
                 검사 시작
-              </NextButton>
+              </StyledNextButton>
             )}
-          </>
+          </div>
         </main>
       </ExamineWrapper>
     </MainWrapper>
   );
 };
 
-const ExamineManual = styled.div`
+const StyledExamineManual = styled.div`
   margin: 35px 0;
   font-size: ${Typography.middle2};
 
@@ -89,7 +97,7 @@ const ExamineManual = styled.div`
   }
 `;
 
-const NextButtonLabel = styled.label<{ hidden: boolean }>`
+const StyledNextButtonLabel = styled.label<{ hidden: boolean }>`
   width: 100%;
   font-size: ${Typography.small};
   visibility: ${props => (props.hidden ? 'visible' : 'hidden')};
@@ -97,7 +105,7 @@ const NextButtonLabel = styled.label<{ hidden: boolean }>`
   text-align: center;
 `;
 
-const NextButton = styled.button`
+const StyledNextButton = styled.button`
   width: 100%;
   height: 50px;
   border: none;
