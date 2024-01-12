@@ -1,0 +1,14 @@
+
+.bg-progress-bar-green{
+  background-color: #2ed573  !important;
+  color: black !important;
+  font-weight: bold !important;
+}
+
+.form-check-input[type=radio]{
+  cursor: pointer;
+}
+
+.form-check-label {
+  cursor: pointer;
+}

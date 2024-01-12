@@ -1,3 +1,44 @@
-body {
-    line-height: 1.56;
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css");
+
+
+html {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
 }
+
+/* https://github.com/orioncactus/pretendard */
+body {
+    height: 100%;
+    font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue',
+          'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji',
+          'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif !important;
+
+    line-height: 1.5 !important;
+
+    #root {
+        height: 100%;
+      }
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    clip: rect(0 0 0 0);
+    margin: -1px;
+    overflow: hidden;
+}
+
+a {
+    display: block;
+}
+
+b {
+    font-weight: bolder;
+}
+
+.goto-main {
+    text-align: center;
+}
+
