@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Table, { StyledTr } from 'src/components/common/Table';
+import Table, { StyledTr } from 'src/components/blocks/Table/Table';
 import { JobDataMajorProps } from 'src/types/psyResult';
 
 interface MajorTableProps {
@@ -24,7 +24,7 @@ const MajorTable: React.FC<MajorTableProps> = ({ jobDataMajor }) => {
 
   const rows = jobDataMajor.map((md, index) =>
     md.jobs ? (
-      <StyledTr key={`jobs-${index}`}>
+      <StyledTr key={`major-${index}`}>
         <th scope="row">{md.major}</th>
         <td>{md.jobs}</td>
       </StyledTr>

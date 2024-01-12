@@ -1,10 +1,12 @@
 import React from 'react';
+import { Button } from 'react-bootstrap';
 
-import { IntroWrapper, MainWrapper } from 'src/components/common/Wrapper';
+import Grid from 'src/components/blocks/Box/Grid';
 import { fetchScoreData } from 'src/features/psyResultSlice';
 import { useAppDispatch } from 'src/hooks/useAppDispatch';
 import { useAppSelector } from 'src/hooks/useAppSelector';
-import { Colors } from 'src/styles';
+import { StyledIntroWrapper } from 'src/styles/wrapper';
+import { getKoreanParticle } from 'src/utils/koreanParticle';
 import styled from 'styled-components';
 
 interface PreviewPageProps {
@@ -30,9 +32,9 @@ const PreviewPage: React.FC<PreviewPageProps> = ({ onResultPageShow }) => {
   }
 
   return (
-    <MainWrapper center={true}>
-      <main role="main">
-        <IntroWrapper>
+    <main role="main">
+      <StyledPreviewWrapper>
+        <StyledIntroWrapper>
           <h1>검사가 완료되었습니다.</h1>
           <p>
             검사 결과는 여러분이 직업을 선택할 때 상대적으로 어떠한 가치를
@@ -41,31 +43,33 @@ const PreviewPage: React.FC<PreviewPageProps> = ({ onResultPageShow }) => {
           </p>
           <p>
             직업생활과 관련하여 <b>{userData.name}</b>님은<b> {bestTwo[0]}</b>
-            (와)과 <b>{bestTwo[1]}</b>
-            (을)를 가장 중요하게 생각합니다. 반면에{' '}
-            <b>
-              {worstTwo[0]},{worstTwo[1]}
-            </b>
-            은(는) 상대적으로 덜 중요하게 생각합니다.
+            {getKoreanParticle(bestTwo[0], '와/과')} <b>{bestTwo[1]}</b>
+            {getKoreanParticle(bestTwo[1], '을/를')} 가장 중요하게 생각합니다.{' '}
+            <br />
+            반면에,
+            <b>{worstTwo[0]}</b>
+            {getKoreanParticle(worstTwo[0], '와/과')}
+            <b> {worstTwo[1]}</b>
+            {getKoreanParticle(worstTwo[1], '은/는')} 상대적으로 덜 중요하게
+            생각합니다.
           </p>
-          <ViewResultButton type="button" onClick={onResultPageShow}>
-            결과 확인하기
-          </ViewResultButton>
-        </IntroWrapper>
-      </main>
-    </MainWrapper>
+          <Grid>
+            <Button type="button" size="lg" onClick={onResultPageShow}>
+              결과 확인하기
+            </Button>
+          </Grid>
+        </StyledIntroWrapper>
+      </StyledPreviewWrapper>
+    </main>
   );
 };
 
-const ViewResultButton = styled.button`
-  display: block;
-  background-color: 'white';
-  width: 50%;
-  background-color: ${Colors.mainBlue};
-  color: ${Colors.mainWhite};
-  border: 0;
-  padding: 15px 10px;
-  margin: 0 auto;
+const StyledPreviewWrapper = styled.div`
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default PreviewPage;

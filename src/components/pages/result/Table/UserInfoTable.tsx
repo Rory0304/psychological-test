@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Table, { StyledTr } from 'src/components/common/Table';
+import Table, { StyledTr } from 'src/components/blocks/Table/Table';
 
 interface UserInfoTableProps {
   name: string;

@@ -1,6 +1,8 @@
 import React from 'react';
+import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
+import FlexBox from 'src/components/blocks/Box/Flex';
 import {
   fetchJobDataByEducation,
   fetchJobDataByMajor,
@@ -8,6 +10,7 @@ import {
 import { useAppDispatch } from 'src/hooks/useAppDispatch';
 import { useAppSelector } from 'src/hooks/useAppSelector';
 import { Colors, Typography } from 'src/styles';
+import { exportAsPDF } from 'src/utils/pdf';
 import styled from 'styled-components';
 
 import PreviewPage from './PreviewPage';
@@ -26,12 +29,7 @@ const ResultPage: React.FC = () => {
       {resultView === 'preview' ? (
         <PreviewPage onResultPageShow={handleResultPageShow} />
       ) : (
-        <StyledResultWrapper>
-          <ResultPaper />
-          <Link to="/" className="goto-main">
-            <StyledMoveToMainButton>다시 검사하기</StyledMoveToMainButton>
-          </Link>
-        </StyledResultWrapper>
+        <ResultPaper />
       )}
     </>
   );
@@ -44,6 +42,7 @@ const ResultPaper: React.FC = () => {
   const { loading, score_data, jobdata_edu, jobdata_major } = useAppSelector(
     state => state.psyResult
   );
+  console.log('jobdata_edu', jobdata_edu);
   const { no1, no2 } = useAppSelector(state => state.psyResult);
 
   React.useEffect(() => {
@@ -60,41 +59,53 @@ const ResultPaper: React.FC = () => {
     <div>loading...</div>;
   }
   return (
-    <>
-      <StyledResultHeader>
-        <h1>직업 가치관 검사 결과표</h1>
-        <p>
-          직업가치관이란 직업을 선택할 때 영향을 끼치는 자신만의 믿음과
-          신념입니다. 따라서 여러분의 직업생활과 관련하여 포기하지 않는
-          무게중심의 역할을 한다고 볼 수 있습니다. 직업가치관검사는 여러분이
-          직업을 선택할 때 상대적으로 어떠한 가치를 중요하게 생각하는지를
-          알려줍니다. 또 한 본인이 가장 중요하게 생각하는 가치를 충족시켜줄 수
-          있는 직업에 대해 생각해 볼 기회를 제공합니다.
-        </p>
-        <UserInfoTable name={name} gender={gender} startDtm={startDtm} />
-      </StyledResultHeader>
-      <main>
-        <StyledSection>
-          <h2>1. 직업 가치관 결과</h2>
-          <ValueGraph />
-        </StyledSection>
-        <StyledSection>
-          <h2>2. 가치관과 관련이 높은 직업</h2>
-          <EduTable jobDataEdu={jobdata_edu} />
-          <MajorTable jobDataMajor={jobdata_major} />
-        </StyledSection>
-      </main>
-    </>
+    <StyledResultWrapper>
+      <div id="result-pdf" style={{ backgroundColor: Colors.mainWhite }}>
+        <StyledResultHeader>
+          <h1>직업 가치관 검사 결과표</h1>
+          <p>
+            직업가치관이란 직업을 선택할 때 영향을 끼치는 자신만의 믿음과
+            신념입니다. 따라서 여러분의 직업생활과 관련하여 포기하지 않는
+            무게중심의 역할을 한다고 볼 수 있습니다. 직업가치관검사는 여러분이
+            직업을 선택할 때 상대적으로 어떠한 가치를 중요하게 생각하는지를
+            알려줍니다. 또한 본인이 가장 중요하게 생각하는 가치를 충족시켜줄 수
+            있는 직업에 대해 생각해 볼 기회를 제공합니다.
+          </p>
+          <UserInfoTable name={name} gender={gender} startDtm={startDtm} />
+        </StyledResultHeader>
+        <main>
+          <StyledSection>
+            <h2>1. 직업 가치관 결과</h2>
+            <ValueGraph />
+          </StyledSection>
+          <StyledSection>
+            <h2>2. 가치관과 관련이 높은 직업</h2>
+            <EduTable jobDataEdu={jobdata_edu} />
+            <MajorTable jobDataMajor={jobdata_major} />
+          </StyledSection>
+        </main>
+      </div>
+      <StyledFooter>
+        <FlexBox columnGap={'16px'} justifyContent="center">
+          <Link to="/" className="goto-main">
+            <Button>다시 검사하기</Button>
+          </Link>
+          <Button onClick={() => exportAsPDF({ idSelector: 'result-pdf' })}>
+            PDF 로 저장
+          </Button>
+        </FlexBox>
+      </StyledFooter>
+    </StyledResultWrapper>
   );
 };
 
 const StyledResultWrapper = styled.div`
-  width: 75%;
-  padding: 60px 0;
-  margin: 0 auto;
+  padding: 2rem 0;
 `;
 
 const StyledResultHeader = styled.header`
+  padding: 1.5rem;
+
   & > h1 {
     width: fit-content;
     margin: 0 auto;
@@ -114,7 +125,7 @@ const StyledResultHeader = styled.header`
 `;
 
 const StyledSection = styled.section`
-  margin: 40px 0 65px 0;
+  padding: 40px 1.5rem 65px 1.5rem;
 
   & > h2 {
     border-left: 12px solid ${Colors.mainBlue};
@@ -130,13 +141,8 @@ const StyledSection = styled.section`
   }
 `;
 
-const StyledMoveToMainButton = styled.span`
-  width: 50%;
-  background-color: ${Colors.mainBlue};
-  color: ${Colors.mainWhite};
-  border: 0;
-  padding: 15px 10px;
-  margin: 0 auto;
+const StyledFooter = styled.footer`
+  margin-top: 1.5rem;
 `;
 
 export default ResultPage;

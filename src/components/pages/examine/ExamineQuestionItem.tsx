@@ -3,7 +3,7 @@ import { FormCheck } from 'react-bootstrap';
 
 import { setUserAnswer } from 'src/features/psyAnswerSheetSlice';
 import { useAppDispatch } from 'src/hooks/useAppDispatch';
-import { Colors, Typography } from 'src/styles';
+import { Breakpoints, Colors, Typography } from 'src/styles';
 import type { QuestionDataProps } from 'src/types/psyQuestion';
 import styled from 'styled-components';
 
@@ -37,6 +37,12 @@ const ExamineQuestionItem: React.FC<ExamineQuestionItemProps> = ({
   const handleRadioInputChange = (value: string) => {
     //이미 체크한 상태에서 체크 옵션만 바꾼 것이기 때문에 answer state만 변경
     dispatch(setUserAnswer({ qitemNo: questionNumber, answer: value }));
+
+    const nextQuestionElement = document.querySelector(`#q-${questionNumber}`);
+
+    if (nextQuestionElement) {
+      nextQuestionElement.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
@@ -73,18 +79,25 @@ const ExamineQuestionItem: React.FC<ExamineQuestionItemProps> = ({
 const StyledQuestion = styled.p`
   font-weight: bold;
   margin-bottom: 20px;
+  color: ${Colors.fontSecondary};
 `;
 
 const StyledAnswerOption = styled.div`
-  width: 50%;
+  width: 100%;
+  max-width: 50%;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-around;
   margin: 0 auto;
+
+  @media ${Breakpoints.tabletSmaller} {
+    max-width: 100%;
+  }
 `;
 
 const StyledQuestionBox = styled.div`
   font-size: ${Typography.middle1};
-  background-color: ${Colors.mainGray};
+  background-color: ${Colors.mainWhite};
   text-align: center;
   padding: 18px;
   margin-bottom: 25px;

@@ -1,18 +1,16 @@
 import React from 'react';
-import { Form } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 
-import 'bootstrap/dist/css/bootstrap.css';
 import { resetUserAnswer } from 'src/features/psyAnswerSheetSlice';
+import { resetResult } from 'src/features/psyResultSlice';
 import { resetUserInfo, setUserInfo } from 'src/features/psyUserInfoSlice';
 import { useAppDispatch } from 'src/hooks/useAppDispatch';
 import useForm from 'src/hooks/useForm';
-import { Colors, Typography } from 'src/styles';
+import { Colors } from 'src/styles';
+import { StyledIntroWrapper } from 'src/styles/wrapper';
 import type { GenderType } from 'src/types/psyUserInfo';
 import styled from 'styled-components';
-
-import { IntroWrapper, MainWrapper } from '../common/Wrapper';
-import './MainPage.css';
 
 interface FormDataProps {
   username: string;
@@ -36,6 +34,7 @@ const MainPage: React.FC = () => {
   React.useEffect(() => {
     dispatch(resetUserInfo());
     dispatch(resetUserAnswer());
+    dispatch(resetResult());
   }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -44,39 +43,35 @@ const MainPage: React.FC = () => {
       dispatch(setUserInfo({ gender: gender as GenderType, name: username }));
       history.push('/examine-example');
     } else {
-      alert('정보를 모두 입력하세요!');
+      alert('정보를 모두 입력하세요.');
     }
   };
 
   return (
-    <MainWrapper center={true}>
-      <main role="main">
-        <IntroWrapper>
+    <main role="main">
+      <StyledMainWrapper>
+        <StyledIntroWrapper>
           <h1>직업 가치관 검사</h1>
           <p>
-            {`직업가치관 검사는 여러분이 직업을 선택할 때 어떤 가치를 중요하게 여기는지
-                        알아보기 위한 것입니다. 직업가치관은 여러분의 직업선택에 중요한 기준이 되며,
-                        자신의 가치와 일치하는 직업을 가졌을 때 더 큰 만족감과 성취감을 느끼게
-                        됩니다. 직업가치관 검사 결과를 통해 직업에 있어 나에게 어떤 가치가 중요한지
-                        이해하는 데 도움이 될 것입니다.`}
+            {`직업가치관 검사는 여러분이 직업을 선택할 때 어떤 가치를 중요하게 여기는지 알아보기 위한 것입니다.\n직업가치관은 여러분의 직업선택에 중요한 기준이 되며,\n자신의 가치와 일치하는 직업을 가졌을 때 더 큰 만족감과 성취감을 느끼게 됩니다.\n직업가치관 검사 결과를 통해 직업에 있어 나에게 어떤 가치가 중요한지 이해하는 데 도움이 될 것입니다.`}
           </p>
-        </IntroWrapper>
-        <FormWrapper>
-          <Form className="custom-form" onSubmit={handleSubmit}>
-            <Form.Group className="mb-4">
+        </StyledIntroWrapper>
+        <StyledFormWrapper>
+          <StyledForm onSubmit={handleSubmit}>
+            <StyledFormGroup>
               <Form.Label>이름</Form.Label>
               <InputTextDiv>
                 <Form.Control
-                  type="text"
-                  placeholder="이름을 작성하세요"
                   required
-                  value={username}
+                  type="text"
                   name="username"
+                  value={username}
+                  placeholder="이름을 작성하세요"
                   onChange={e => handleChange('username', e.target.value)}
                 />
               </InputTextDiv>
-            </Form.Group>
-            <Form.Group className="mb-4">
+            </StyledFormGroup>
+            <StyledFormGroup>
               <Form.Label>성별</Form.Label>
               <InputRadioDiv>
                 <Form.Check
@@ -99,18 +94,50 @@ const MainPage: React.FC = () => {
                   onChange={e => handleChange('gender', e.target.value)}
                 />
               </InputRadioDiv>
-            </Form.Group>
-            <StartButton hidden={!username || !gender}>검사시작</StartButton>
-          </Form>
-        </FormWrapper>
-      </main>
-    </MainWrapper>
+            </StyledFormGroup>
+            <Button type="submit" disabled={!username || !gender} size="lg">
+              검사 시작
+            </Button>
+          </StyledForm>
+        </StyledFormWrapper>
+      </StyledMainWrapper>
+    </main>
   );
 };
 
-const FormWrapper = styled.div`
-  background-color: ${Colors.mainGray};
+const StyledMainWrapper = styled.div`
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 0;
+  overflow: scroll;
+`;
+
+const StyledFormWrapper = styled.div`
+  width: 100%;
+  background-color: ${Colors.mainWhite};
   padding: 25px;
+  border-radius: 1.5rem;
+`;
+
+const StyledForm = styled(Form)`
+  text-align: center;
+  font-size: 1.5rem;
+
+  .form-label {
+    display: block;
+    margin-bottom: 15px;
+  }
+
+  .form-check-label:hover {
+    cursor: pointer;
+  }
+`;
+
+const StyledFormGroup = styled(Form.Group)`
+  margin-bottom: 1.5rem;
 `;
 
 const InputTextDiv = styled.div`
@@ -126,24 +153,6 @@ const InputRadioDiv = styled.div`
   display: flex;
   justify-content: center;
   gap: 10%;
-`;
-
-const StartButton = styled.button<{ hidden: boolean }>`
-  width: 25%;
-  margin-top: 1rem;
-  font-size: 15px;
-  font-weight: bold;
-  margin: 0 auto;
-  padding: 10px 8px;
-  border: 2px solid ${Colors.mainBlue};
-  border-radius: 8px;
-  background-color: ${props =>
-    props.hidden ? Colors.mainBlue : Colors.mainWhite};
-  color: ${props => (props.hidden ? Colors.mainWhite : Colors.mainBlue)};
-  font-size: ${Typography.middle2};
-  &:hover {
-    box-shadow: 1px 1px 5px 1px ${Colors.shadowGray};
-  }
 `;
 
 export default MainPage;

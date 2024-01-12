@@ -1,9 +1,9 @@
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 
-import ExamineExample from './components/examine/ExamineExample';
-import ExaminePaper from './components/examine/ExaminePaper';
-import MainPage from './components/main/MainPage';
-import ResultPage from './components/result/ResultPage';
+import MainPage from './components/pages/main/MainPage';
+import ExamineExample from './components/pages/examine/ExamineExample';
+import ExaminePaper from './components/pages/examine/ExaminePaper';
+import ResultPage from './components/pages/result/ResultPage';
 import { useAppSelector } from './hooks/useAppSelector';
 import type { RootState } from './store';
 
