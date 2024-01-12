@@ -135,8 +135,15 @@ export const fetchJobDataByMajor = createAsyncThunk(
 const psyResultSlice = createSlice({
   name: 'psy_result',
   initialState: INITIAL_STATE,
-  reducers: {},
+  reducers: {
+    resetResult() {
+      return INITIAL_STATE;
+    },
+  },
   extraReducers: {
+    //
+    //
+    //
     [fetchScoreData.pending.type]: state => {
       state.loading = true;
     },
@@ -189,6 +196,10 @@ const psyResultSlice = createSlice({
       state.loading = false;
       state.error = action.payload.errorMessage;
     },
+
+    //
+    //
+    //
     [fetchJobDataByEducation.pending.type]: state => {
       state.loading = true;
     },
@@ -203,9 +214,11 @@ const psyResultSlice = createSlice({
             jobListByEdu.push(jobdata[1]);
           }
         });
-        const newEduData = Object.assign(edudata, {
+
+        const newEduData = Object.assign({}, edudata, {
           jobs: jobListByEdu.join(', '),
         });
+
         return newEduData;
       });
 
@@ -219,6 +232,9 @@ const psyResultSlice = createSlice({
       state.loading = false;
       state.error = action.payload.errorMessage;
     },
+    //
+    //
+    //
     [fetchJobDataByMajor.pending.type]: state => {
       state.loading = true;
     },
@@ -234,7 +250,7 @@ const psyResultSlice = createSlice({
           }
         });
 
-        const newMajorDatda = Object.assign(majordata, {
+        const newMajorDatda = Object.assign({}, majordata, {
           jobs: jobListByMajor.join(', '),
         });
         return newMajorDatda;
@@ -251,5 +267,7 @@ const psyResultSlice = createSlice({
     },
   },
 });
+
+export const { resetResult } = psyResultSlice.actions;
 
 export default psyResultSlice.reducer;
