@@ -4,6 +4,7 @@
 ## Table of Contents
 * [Technologies Used](#technologies-used)
 * [Features](#features)
+* [Test](#test)
 * [Usage](#usage)
 * [Room for Improvement](#room-for-improvement)
 
@@ -36,6 +37,23 @@
 ## Features
 1) 직업 가치관 검사를 진행하고, 결과지에 대해서 pdf 로 다운로드할 수 있습니다.
 2) 스크린리더기 NVDA 및 Mac VoiceOver 와 색맹 사용자를 위한 WCAG Contrast checker 로 테스트를 진행하며, 웹 표준을 만족하였습니다. 스크린 리더 사용자도 편하게 사용 가능합니다.
+
+
+## Demo
+[https://psychological-test-bay.vercel.app](https://psychological-test-bay.vercel.app/)
+
+![demo](/docs/result.png)
+
+## Accessibility
+- 색맹 사용자를 고려하여 단순히 색상으로 구분하는 것이 아닌, 버튼에 라벨 텍스트를 추가하여 비활성화/활성화 상태의 구분을 해주었으며, WCAG Contrast checker를 통해 WCAG accessibility 를 준수하는지 검사하여 안정적인 접근성을 확보하였습니다.
+
+![accessibility1](/docs/accessibility1.png)
+![accessibility2](/docs/accessibility2.png)
+
+- 바 차트 구현을 위해 `react-chartjs-2` 를 사용하였으며, canvas 로 구현이 되기 때문에 스크린 리더 사용자는 해당 데이터 정보를 인식하지 못하는 문제가 있었습니다.
+이를 해결하기 위해, clip 과 position 을 활용한 **텍스트 요소 숨김 기법**을 활용하여 canvas 로 이루어진 데이터 차트 정보를 스크린리더 사용자도 인식할 수 있도록 지원하였습니다.
+
+![accessibility3](/docs/accessibility3.png)
 
 
 ## Usage
